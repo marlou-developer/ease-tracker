@@ -1,0 +1,33 @@
+{
+  "resources/js/app.jsx": {
+    "file": "assets/app-VagLv-4G.js",
+    "name": "app",
+    "src": "resources/js/app.jsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/app/administrator/page.jsx",
+      "resources/js/app/home/page.jsx"
+    ],
+    "css": [
+      "assets/app-DBhn690D.css"
+    ]
+  },
+  "resources/js/app/administrator/page.jsx": {
+    "file": "assets/page-CTKGCPIa.js",
+    "name": "page",
+    "src": "resources/js/app/administrator/page.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app/home/page.jsx": {
+    "file": "assets/page-KsqbSkvX.js",
+    "name": "page",
+    "src": "resources/js/app/home/page.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  }
+}
