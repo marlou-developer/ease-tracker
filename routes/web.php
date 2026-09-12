@@ -15,6 +15,7 @@ use Inertia\Inertia;
 | Public Routes
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', function () {
     return Inertia::render('home/page');
 });
@@ -80,4 +81,19 @@ Route::middleware('auth')->group(function () {
 //     return redirect()->route('booker.dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
+Route::get('/sw.js', function () {
+    $swContent = "
+        self.addEventListener('install', (e) => self.skipWaiting());
+        self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+        self.addEventListener('fetch', (e) => {
+            e.respondWith(fetch(e.request));
+        });
+    ";
+
+    return response($swContent, 200)
+        ->header('Content-Type', 'application/javascript')
+        ->header('Service-Worker-Allowed', '/');
+});

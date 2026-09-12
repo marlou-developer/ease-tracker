@@ -7,6 +7,8 @@
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- PWA Web App Manifest (Inline Base64 - Bypasses Plesk Proxy Warning) -->
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkVhc2UgUmVzZXJ2YXRpb24iLAogICJzaG9ydF9uYW1lIjogIkVhc2VSZXMiLAogICJzdGFydF91cmwiOiAiLyIsCiAgInNjb3BlIjogIi8iLAogICJpZCI6ICIvIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiIzBmMTcyYSIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiL2ltYWdlcy9sb2dvLnBuZyIsCiAgICB7CiAgICAgICJzcmMiOiAiL2ltYWdlcy9sb2dvLnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICIvaW1hZ2VzL2xvZ28ucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9" />
 
     <!-- Mobile / iOS Safari Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -14,7 +16,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="EaseRes" />
     <link rel="apple-touch-icon" href="{{ url('/images/logo.png') }}" />
-    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIkVhc2UgUmVzZXJ2YXRpb24iLAogICJzaG9ydF9uYW1lIjogIkVhc2VSZXMiLAogICJzdGFydF91cmwiOiAiLyIsCiAgInNjb3BlIjogIi8iLAogICJpZCI6ICIvIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiIzBmMTcyYSIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiL2ltYWdlcy9sb2dvLnBuZyIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2UvcG5nIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfSwKICAgIHsKICAgICAgInNyYyI6ICIvaW1hZ2VzL2xvZ28ucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciLAogICAgICAicHVycG9zZSI6ICJhbnkgbWFza2FibGUiCiAgICB9CiAgXQp9" />
+
     <!-- Inertia & Vite Assets -->
     @routes
     @viteReactRefresh
@@ -35,13 +37,14 @@
             Install Now
         </button>
     </div>
+
     <script>
         (function() {
             let deferredPrompt = null;
             const banner = document.getElementById('custom-install-banner');
             const installBtn = document.getElementById('pwa-install-trigger-btn');
 
-            // Register Service Worker with explicit root path
+            // Service Worker Registration
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
                     navigator.serviceWorker.register('/sw.js', {
