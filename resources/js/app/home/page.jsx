@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GlobalStyle } from "../_styles/global-style";
 import { Navbar } from "../_sections/navbar";
 import { SigninModal } from "../_sections/sign-in";
@@ -10,10 +10,15 @@ import { CartScreen } from "../_sections/cart-screen";
 import { ConfirmScreen } from "../_sections/confirm-screen";
 import { SuccessScreen } from "../_sections/success-screen";
 import { MyBookingsScreen } from "../_sections/my-book-screen";
-import { Footer } from "../_sections/footer";
-import { CATEGORIES, VENUES, SUBSCRIPTION_PLANS } from "../_constants/mockData";
+// import { Footer } from "../_sections/footer";
+import { VENUES, SUBSCRIPTION_PLANS } from "../_constants/mockData";
+import store from "../_store/store";
+import { get_app_data_thunk } from "../_redux/app-thunk";
+import { useSelector } from "react-redux";
 
 export default function App() {
+    const { categories } = useSelector((store) => store.app)
+
     const [screen, setScreen] = useState("home");
     const [categoryFilter, setCategoryFilter] = useState("all");
     const [searchText, setSearchText] = useState("");
@@ -29,8 +34,13 @@ export default function App() {
     const [toasts, setToasts] = useState([]);
     const [form, setForm] = useState({ name: "", email: "", phone: "" });
     const [formErrors, setFormErrors] = useState({ name: false, email: false });
+    const [selected, setSelected] = useState('')
 
     const signinRef = useRef(null);
+
+    useEffect(() => {
+        store.dispatch(get_app_data_thunk())
+    }, [])
 
     function toast(msg) {
         const id = Math.random().toString(36).slice(2);
@@ -43,8 +53,8 @@ export default function App() {
         window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function handleCategoryClick(catKey) {
-        setCategoryFilter(catKey);
+    function handleCategoryClick(value) {
+        setSelected(value)
         setSearchText("");
         go("category-view");
     }
@@ -114,9 +124,10 @@ export default function App() {
         toast("All reservations & subscriptions confirmed!");
     }
 
-    const activeVenue = VENUES.find(v => v.id === selectedVenueId);
-    const visibleCategories = showAllServices ? CATEGORIES : CATEGORIES.slice(0, 4);
+    const activeVenue = selected?.venues?.find(v => v.id === selectedVenueId);
+    const visibleCategories = showAllServices ? categories : categories.slice(0, 4);
 
+    console.log('activeVenue', activeVenue)
     return (
         <div className="mp-root min-h-screen flex flex-col justify-between">
             <GlobalStyle />
@@ -146,6 +157,7 @@ export default function App() {
 
             {screen === "category-view" && (
                 <CategoryScreen
+                    selected={selected}
                     categoryFilter={categoryFilter}
                     searchText={searchText}
                     setSearchText={setSearchText}
@@ -154,7 +166,7 @@ export default function App() {
                 />
             )}
 
-            {screen === "venue" && activeVenue && (
+            {screen === "venue" && (
                 <VenueScreen
                     activeVenue={activeVenue}
                     selectedPlanId={selectedPlanId}
@@ -191,7 +203,7 @@ export default function App() {
 
             {screen === "my-bookings" && <MyBookingsScreen confirmedBookings={confirmedBookings} onGo={go} />}
 
-            <Footer onNavigate={handleCategoryClick} />
+            {/* <Footer onNavigate={handleCategoryClick} /> */}
         </div>
     );
 }

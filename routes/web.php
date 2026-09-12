@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminOrderController;
-use App\Http\Controllers\Admin\AdminVenueController;
-use App\Http\Controllers\Booker\BookerDashboardController;
-use App\Http\Controllers\Booker\BookerReservationController;
+// use App\Http\Controllers\Admin\AdminCategoryController;
+// use App\Http\Controllers\Admin\AdminDashboardController;
+// use App\Http\Controllers\Admin\AdminOrderController;
+// use App\Http\Controllers\Admin\AdminVenueController;
+// use App\Http\Controllers\Booker\BookerDashboardController;
+// use App\Http\Controllers\Booker\BookerReservationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -56,28 +56,28 @@ Route::middleware('auth')->group(function () {
 | Subscriber / Booker Portal Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified', 'role:subscriber,booker'])
-    ->prefix('portal')
-    ->name('booker.')
-    ->group(function () {
-        Route::get('/dashboard', [BookerDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/reservations/{id}', [BookerReservationController::class, 'show'])->name('reservations.show');
-        Route::post('/reservations/{id}/cancel', [BookerReservationController::class, 'cancel'])->name('reservations.cancel');
-    });
+// Route::middleware(['auth', 'verified', 'role:subscriber,booker'])
+//     ->prefix('portal')
+//     ->name('booker.')
+//     ->group(function () {
+//         Route::get('/dashboard', [BookerDashboardController::class, 'index'])->name('dashboard');
+//         Route::get('/reservations/{id}', [BookerReservationController::class, 'show'])->name('reservations.show');
+//         Route::post('/reservations/{id}/cancel', [BookerReservationController::class, 'cancel'])->name('reservations.cancel');
+//     });
 
 /*
 |--------------------------------------------------------------------------
 | Dynamic Role Dashboard Redirect
 |--------------------------------------------------------------------------
 */
-Route::get('/dashboard', function () {
-    $user = auth()->user();
+// Route::get('/dashboard', function () {
+//     $user = auth()->user();
 
-    if ($user->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
+//     if ($user->role === 'admin') {
+//         return redirect()->route('admin.dashboard');
+//     }
 
-    return redirect()->route('booker.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//     return redirect()->route('booker.dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

@@ -1,13 +1,3 @@
-export const CATEGORIES = [
-    { key: "all", label: "All", isBadge: false },
-    { key: "sports", label: "Sports", isBadge: false },
-    { key: "hotel", label: "Hotels", isBadge: false },
-    { key: "workspace", label: "Workspaces", isBadge: false },
-    { key: "studio", label: "Studios", isBadge: false },
-    { key: "fitness", label: "Gym & Fitness", isBadge: true, badgeText: "New" },
-    { key: "wellness", label: "Spa & Wellness", isBadge: false },
-    { key: "equipment", label: "Gear Rental", isBadge: false },
-];
 
 export const CATEGORY_COLORS = {
     all: "#8B5CF6",

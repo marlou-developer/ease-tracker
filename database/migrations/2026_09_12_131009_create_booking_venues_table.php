@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('booking_venues', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('booking_category_id')->constrained()->onDelete('cascade');
             $table->string('name'); // e.g., 'Riverside Tennis Club'
             $table->string('area'); // e.g., 'Riverside Park'
             $table->string('address');
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('unit_label')->default('hour'); // e.g., 'court', 'suite', 'desk'
             $table->decimal('rating', 3, 2)->default(5.00);
             $table->string('distance')->nullable();
+            $table->time('start_time')->default('08:00:00'); // e.g., Opening time (08:00 AM)
+            $table->time('end_time')->default('20:00:00');
             $table->timestamps();
         });
     }

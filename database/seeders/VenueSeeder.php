@@ -15,7 +15,7 @@ class VenueSeeder extends Seeder
         $venues = [
             // Sports
             [
-                'category_id' => $categories['sports'],
+                'booking_category_id' => $categories['sports'],
                 'name' => 'Riverside Tennis Club',
                 'area' => 'Riverside Park',
                 'address' => '12 Riverside Ave',
@@ -24,9 +24,11 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'court',
                 'rating' => 4.80,
                 'distance' => '1.2 km',
+                'start_time' => '08:00:00',
+                'end_time' => '20:00:00',
             ],
             [
-                'category_id' => $categories['sports'],
+                'booking_category_id' => $categories['sports'],
                 'name' => 'Greenfield Turf Field',
                 'area' => 'Greenfield',
                 'address' => '5 Greenfield Way',
@@ -35,11 +37,13 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'pitch',
                 'rating' => 4.70,
                 'distance' => '2.1 km',
+                'start_time' => '07:00:00',
+                'end_time' => '22:00:00',
             ],
 
             // Hotel
             [
-                'category_id' => $categories['hotel'],
+                'booking_category_id' => $categories['hotel'],
                 'name' => 'Grand Vista Resort & Spa',
                 'area' => 'Downtown',
                 'address' => '450 Ocean Parkway',
@@ -48,9 +52,11 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'suite',
                 'rating' => 4.90,
                 'distance' => '0.5 km',
+                'start_time' => '09:00:00',
+                'end_time' => '21:00:00',
             ],
             [
-                'category_id' => $categories['hotel'],
+                'booking_category_id' => $categories['hotel'],
                 'name' => 'Urban Boutique Hotel',
                 'area' => 'Central District',
                 'address' => '128 Main St',
@@ -59,11 +65,13 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'room',
                 'rating' => 4.50,
                 'distance' => '1.8 km',
+                'start_time' => '08:00:00',
+                'end_time' => '20:00:00',
             ],
 
             // Workspace
             [
-                'category_id' => $categories['workspace'],
+                'booking_category_id' => $categories['workspace'],
                 'name' => 'Nexus Co-Working Hub',
                 'area' => 'Tech District',
                 'address' => '101 Innovation Way',
@@ -72,11 +80,13 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'desk',
                 'rating' => 4.70,
                 'distance' => '2.1 km',
+                'start_time' => '08:00:00',
+                'end_time' => '18:00:00',
             ],
 
             // Studio
             [
-                'category_id' => $categories['studio'],
+                'booking_category_id' => $categories['studio'],
                 'name' => 'Lumina Photography Studio',
                 'area' => 'Arts Quarter',
                 'address' => '88 Canvas St',
@@ -85,11 +95,13 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'hall',
                 'rating' => 4.60,
                 'distance' => '3.4 km',
+                'start_time' => '10:00:00',
+                'end_time' => '20:00:00',
             ],
 
             // Fitness
             [
-                'category_id' => $categories['fitness'],
+                'booking_category_id' => $categories['fitness'],
                 'name' => 'Pulse CrossFit & Gym',
                 'area' => 'Metro Center',
                 'address' => '14 Power St',
@@ -98,11 +110,13 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'day pass',
                 'rating' => 4.90,
                 'distance' => '0.9 km',
+                'start_time' => '06:00:00',
+                'end_time' => '21:00:00',
             ],
 
             // Wellness
             [
-                'category_id' => $categories['wellness'],
+                'booking_category_id' => $categories['wellness'],
                 'name' => 'Serenity Sauna & Spa',
                 'area' => 'Lakeside',
                 'address' => '90 Calm Water Rd',
@@ -111,6 +125,8 @@ class VenueSeeder extends Seeder
                 'unit_label' => 'session',
                 'rating' => 4.80,
                 'distance' => '3.1 km',
+                'start_time' => '09:00:00',
+                'end_time' => '19:00:00',
             ],
         ];
 

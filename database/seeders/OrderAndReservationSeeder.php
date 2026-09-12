@@ -37,8 +37,8 @@ class OrderAndReservationSeeder extends Seeder
         ]);
 
         $this->createReservation([
-            'order_id' => $order1->id,
-            'venue_id' => $venues->where('name', 'Riverside Tennis Club')->first()->id ?? $venues->first()->id,
+            'booking_order_id' => $order1->id,
+            'booking_venue_id' => $venues->where('name', 'Riverside Tennis Club')->first()->id ?? $venues->first()->id,
             'reservation_date' => now()->addDays(2)->format('Y-m-d'),
             'slot_time' => '10:00',
             'base_price' => 25.00,
@@ -49,8 +49,8 @@ class OrderAndReservationSeeder extends Seeder
         ]);
 
         $this->createReservation([
-            'order_id' => $order1->id,
-            'venue_id' => $venues->where('name', 'Nexus Co-Working Hub')->first()->id ?? $venues->first()->id,
+            'booking_order_id' => $order1->id,
+            'booking_venue_id' => $venues->where('name', 'Nexus Co-Working Hub')->first()->id ?? $venues->first()->id,
             'reservation_date' => now()->addDays(3)->format('Y-m-d'),
             'slot_time' => '14:00',
             'base_price' => 15.00,
@@ -77,8 +77,8 @@ class OrderAndReservationSeeder extends Seeder
         ]);
 
         $this->createReservation([
-            'order_id' => $order2->id,
-            'venue_id' => $venues->where('name', 'Grand Vista Resort & Spa')->first()->id ?? $venues->first()->id,
+            'booking_order_id' => $order2->id,
+            'booking_venue_id' => $venues->where('name', 'Grand Vista Resort & Spa')->first()->id ?? $venues->first()->id,
             'reservation_date' => now()->addDays(5)->format('Y-m-d'),
             'slot_time' => '12:00',
             'base_price' => 180.00,

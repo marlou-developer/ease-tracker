@@ -62,7 +62,13 @@ class BookingOrder extends Model
 
     public function reservations(): HasMany
     {
-        return $this->hasMany(BookingReservation::class, 'order_id');
+        // Explicitly define 'booking_order_id' as the foreign key
+        return $this->hasMany(BookingReservation::class, 'booking_order_id');
+    }
+    public function order(): BelongsTo
+    {
+        // Explicitly define 'booking_order_id' as the foreign key
+        return $this->belongsTo(BookingOrder::class, 'booking_order_id');
     }
     /* ============================================================
        HELPER METHODS

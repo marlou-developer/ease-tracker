@@ -2,3 +2,5 @@ php artisan make:model Booking/BookingCategory -mcr
 php artisan make:model Booking/BookingVenue -mcr
 php artisan make:model Booking/BookingOrder -mcr
 php artisan make:model Booking/BookingReservation -mcr
+
+

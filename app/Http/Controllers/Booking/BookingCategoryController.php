@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Booking;
 
 use App\Http\Controllers\Controller;
@@ -17,19 +18,14 @@ class BookingCategoryController extends Controller
         $categories = BookingCategory::withCount('venues')
             ->when($request->search, function ($query, $search) {
                 $query->where('name', 'LIKE', "%{$search}%")
-                      ->orWhere('key', 'LIKE', "%{$search}%");
+                    ->orWhere('key', 'LIKE', "%{$search}%");
             })
+            ->with(['venues'])
             ->latest()
-            ->paginate($request->get('per_page', 15));
+            ->get();
 
-        if ($request->wantsJson()) {
-            return response()->json([
-                'success' => true,
-                'data' => $categories,
-            ]);
-        }
 
-        return view('categories.index', compact('categories'));
+        return response()->json($categories);
     }
 
     /**

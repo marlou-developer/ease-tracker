@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('booking_reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('venue_id')->constrained()->onDelete('cascade');
+            $table->foreignId('booking_order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('booking_venue_id')->constrained()->onDelete('cascade');
             $table->date('reservation_date'); // e.g., '2026-09-15'
             $table->string('slot_time'); // e.g., '14:00'
 
@@ -36,7 +36,11 @@ return new class extends Migration
             $table->timestamps();
 
             // Prevent double-booking the same venue at the exact same date & time slot
-            $table->unique(['venue_id', 'reservation_date', 'slot_time']);
+            // Pass a concise custom name (e.g., 'reservations_slot_unique' = 24 chars)
+            $table->unique(
+                ['booking_venue_id', 'reservation_date', 'slot_time'],
+                'reservations_slot_unique'
+            );
         });
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BookingVenue extends Model
 {
@@ -19,7 +20,7 @@ class BookingVenue extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'category_id',
+        'booking_category_id',
         'name',
         'area',
         'address',
@@ -28,6 +29,8 @@ class BookingVenue extends Model
         'unit_label',
         'rating',
         'distance',
+        'start_time',
+        'end_time',
     ];
 
     /**
@@ -39,6 +42,8 @@ class BookingVenue extends Model
         'base_price'            => 'decimal:2',
         'commission_percentage' => 'decimal:2',
         'rating'                => 'decimal:2',
+        'start_time'            => 'datetime:H:i',
+        'end_time'              => 'datetime:H:i',
     ];
 
     /* ============================================================
@@ -48,9 +53,9 @@ class BookingVenue extends Model
     /**
      * Get the category that this venue belongs to.
      */
-    public function category(): BelongsTo
+    public function category(): HasOne
     {
-        return $this->belongsTo(BookingCategory::class);
+        return $this->hasOne(BookingCategory::class, 'id', 'booking_category_id');
     }
 
     /**
@@ -71,7 +76,7 @@ class BookingVenue extends Model
     public function scopeByCategory(Builder $query, string|int $category): Builder
     {
         if (is_numeric($category)) {
-            return $query->where('category_id', $category);
+            return $query->where('booking_category_id', $category);
         }
 
         return $query->whereHas('category', function (Builder $q) use ($category) {
@@ -86,8 +91,8 @@ class BookingVenue extends Model
     {
         return $query->where(function (Builder $q) use ($term) {
             $q->where('name', 'LIKE', "%{$term}%")
-              ->orWhere('area', 'LIKE', "%{$term}%")
-              ->orWhere('address', 'LIKE', "%{$term}%");
+                ->orWhere('area', 'LIKE', "%{$term}%")
+                ->orWhere('address', 'LIKE', "%{$term}%");
         });
     }
 }

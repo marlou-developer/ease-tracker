@@ -1,4 +1,4 @@
-import { CATEGORIES, SUBSCRIPTION_PLANS } from "../_constants/mockData";
+import {  SUBSCRIPTION_PLANS } from "../_constants/mockData";
 import { ServiceCategoryIcon } from "./service-category-icon";
 
 
@@ -22,13 +22,13 @@ export function Footer({ onNavigate }) {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--amber)] mb-3">Categories</h4>
             <ul className="space-y-2 text-xs text-white/70">
-              {CATEGORIES.slice(1, 5).map(c => (
+              {/* {CATEGORIES.slice(1, 5).map(c => (
                 <li key={c.key}>
                   <button onClick={() => onNavigate(c.key)} className="hover:text-white transition-colors">
                     {c.label}
                   </button>
                 </li>
-              ))}
+              ))} */}
             </ul>
           </div>
 

@@ -1,7 +1,12 @@
-import { CATEGORIES, CATEGORY_COLORS }  from "../_constants/mockData";
+import { useSelector } from "react-redux";
+import {  CATEGORY_COLORS }  from "../_constants/mockData";
 import { ServiceCategoryIcon } from "./service-category-icon";
 
 export function CategoryGrid({ visibleCategories, showAllServices, onToggleShowAll, onCategoryClick }) {
+
+    const { categories } = useSelector((store) => store.app)
+
+    console.log('categories',categories)
     return (
         <section className="max-w-7xl mx-auto px-6 pt-10 pb-16 relative z-20">
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-[var(--line-dark-strong)] shadow-xl">
@@ -13,12 +18,12 @@ export function CategoryGrid({ visibleCategories, showAllServices, onToggleShowA
                 </div>
 
                 <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-8 gap-y-6 gap-x-3">
-                    {visibleCategories.map(cat => {
+                    {categories?.map(cat => {
                         const color = CATEGORY_COLORS[cat.key] || "var(--amber)";
                         return (
                             <button
                                 key={cat.key}
-                                onClick={() => onCategoryClick(cat.key)}
+                                onClick={() => onCategoryClick(cat)}
                                 className="group flex flex-col items-center justify-start text-center outline-none"
                             >
                                 <div className="relative mb-2">
@@ -36,7 +41,7 @@ export function CategoryGrid({ visibleCategories, showAllServices, onToggleShowA
                                     </div>
                                 </div>
                                 <span className="text-xs font-semibold tracking-tight text-[var(--ink-dim)] group-hover:text-[var(--pitch)] line-clamp-1">
-                                    {cat.label}
+                                    {cat.name}
                                 </span>
                             </button>
                         );

@@ -16,8 +16,8 @@ class BookingReservation extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'order_id',
-        'venue_id',
+        'booking_order_id',
+        'booking_venue_id',
         'reservation_date',
         'slot_time',
         'base_price',
@@ -76,8 +76,8 @@ class BookingReservation extends Model
      */
     public function order(): BelongsTo
     {
-        // Explicitly declare 'order_id' to prevent Eloquent from guessing 'booking_order_id'
-        return $this->belongsTo(BookingOrder::class, 'order_id');
+        // Explicitly declare 'booking_order_id' to prevent Eloquent from guessing 'booking_booking_order_id'
+        return $this->belongsTo(BookingOrder::class, 'booking_order_id');
     }
 
     /**
@@ -85,7 +85,7 @@ class BookingReservation extends Model
      */
     public function venue(): BelongsTo
     {
-        // Explicitly declare 'venue_id' as well
-        return $this->belongsTo(BookingVenue::class, 'venue_id');
+        // Explicitly declare 'booking_venue_id' as well
+        return $this->belongsTo(BookingVenue::class, 'booking_venue_id');
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Booking;
+
+use App\Http\Controllers\Controller;
 
 use App\Models\Booking\BookingCategory;
 use App\Models\Booking\BookingVenue;

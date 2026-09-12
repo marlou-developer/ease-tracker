@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Booking;
 
 use App\Models\Booking;
@@ -43,7 +44,7 @@ class BookingCategory extends Model
      */
     public function venues(): HasMany
     {
-        return $this->hasMany(BookingVenue::class);
+        return $this->hasMany(BookingVenue::class)->with(['reservations','category']);
     }
 
     /**
