@@ -1,381 +1,632 @@
-import React, { useState } from 'react';
-import { 
-  FiHome, FiShoppingCart, FiCalendar, 
-  FiMenu, FiBell, FiSearch, FiPlus, FiMinus, 
-  FiMapPin, FiClock, FiCreditCard
-} from 'react-icons/fi';
-import { MdOutlineCalculate } from 'react-icons/md';
+import React, { useState } from "react";
 
-// --- MOCK DATA ---
-const FOOD_ITEMS = [
-  { id: 1, name: 'Classic Burger', price: 8.99, category: 'Food' },
-  { id: 2, name: 'Margherita Pizza', price: 12.50, category: 'Food' },
-  { id: 3, name: 'Iced Latte', price: 4.50, category: 'Beverage' },
-  { id: 4, name: 'Caesar Salad', price: 7.99, category: 'Food' },
-  { id: 5, name: 'Fries', price: 3.99, category: 'Sides' },
-  { id: 6, name: 'Craft Beer', price: 6.00, category: 'Beverage' },
+/* ============================================================
+   DESIGN TOKENS & STYLES (PURPLE THEME)
+============================================================ */
+const GlobalStyle = () => (
+  <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+    :root{
+      --pitch: #2E1065; 
+      --pitch-2: #3B0764; 
+      --pitch-3: #4C1D95;
+      --chalk: #FAF5FF; 
+      --chalk-2: #FFFFFF;
+      --ink: #1E1B4B; 
+      --ink-dim: #6B7280;
+      --amber: #8B5CF6; 
+      --amber-ink: #FFFFFF;
+      --line-dark: rgba(46, 16, 101, 0.10); 
+      --line-dark-strong: rgba(46, 16, 101, 0.25);
+    }
+    
+    .mp-root{ font-family:'Plus Jakarta Sans', sans-serif; background:var(--chalk); color:var(--ink); }
+    .mp-display{ font-family:'Outfit', sans-serif; font-weight:700; letter-spacing:-0.02em; }
+    
+    @keyframes screenIn{ 
+      from{opacity:0; transform:translateY(12px) scale(0.99);} 
+      to{opacity:1; transform:translateY(0) scale(1);} 
+    }
+    .screen-anim{ animation:screenIn .35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  `}</style>
+);
+
+/* ============================================================
+   INITIAL MOCK DATA
+============================================================ */
+const INITIAL_CATEGORIES = [
+  { id: 1, name: "Sports Courts", key: "sports", icon: "⚽", count: 8 },
+  { id: 2, name: "Hotels & Suites", key: "hotel", icon: "🏨", count: 5 },
+  { id: 3, name: "Co-Working Hubs", key: "workspace", icon: "💼", count: 3 },
+  { id: 4, name: "Studios & Halls", key: "studio", icon: "📸", count: 2 },
 ];
 
-const SPORTS_FACILITIES = ['Tennis Court 1', 'Basketball Indoor', 'Swimming Pool Lane A', 'Futsal Pitch'];
-const HOTEL_ROOMS = ['Deluxe Suite', 'Standard Double', 'Ocean View King', 'Economy Single'];
+const INITIAL_VENUES = [
+  { id: 1, name: "Riverside Tennis Club", categoryId: 1, area: "Riverside Park", basePrice: 25, feePercent: 10, unit: "court" },
+  { id: 2, name: "Grand Vista Resort", categoryId: 2, area: "Downtown", basePrice: 180, feePercent: 10, unit: "suite" },
+  { id: 3, name: "Nexus Co-Working", categoryId: 3, area: "Tech District", basePrice: 15, feePercent: 10, unit: "desk" },
+];
 
-export default function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+const INITIAL_ORDERS = [
+  { id: "ORD-X9A7B", guest: "Jordan Cruz", email: "jordan@example.com", total: 85.00, fee: 8.50, discount: 12.75, status: "paid", date: "2026-09-12" },
+  { id: "ORD-B4M9P", guest: "Alex Morgan", email: "alex@example.com", total: 180.00, fee: 18.00, discount: 0.00, status: "paid", date: "2026-09-11" },
+  { id: "ORD-K2L8R", guest: "Taylor Swift", email: "taylor@example.com", total: 45.00, fee: 4.50, discount: 6.75, status: "pending", date: "2026-09-10" },
+];
+
+const INITIAL_RESERVATIONS = [
+  { id: 1, venue: "Riverside Tennis Club", category: "Sports", date: "2026-09-15", time: "10:00 AM", passCode: "PASS-X91A2F", status: "confirmed", price: 21.25 },
+  { id: 2, venue: "Grand Vista Resort", category: "Hotel", date: "2026-09-20", time: "02:00 PM", passCode: "PASS-B82C9L", status: "confirmed", price: 153.00 },
+  { id: 3, venue: "Nexus Co-Working", category: "Workspace", date: "2026-09-05", time: "08:00 AM", passCode: "PASS-M41K8P", status: "completed", price: 12.75 },
+];
+
+/* ============================================================
+   MAIN CONTAINER WITH PORTAL SWITCHER
+============================================================ */
+export default function PortalsContainer() {
+  const [activePortal, setActivePortal] = useState("admin"); // 'admin' | 'subscriber' | 'booker'
+
+  // Shared application state
+  const [categories, setCategories] = useState(INITIAL_CATEGORIES);
+  const [venues, setVenues] = useState(INITIAL_VENUES);
+  const [orders, setOrders] = useState(INITIAL_ORDERS);
+  const [reservations, setReservations] = useState(INITIAL_RESERVATIONS);
 
   return (
-    <div className="flex h-screen bg-gray-100 font-sans text-gray-800 overflow-hidden">
-      {/* SIDEBAR */}
-      <aside className="w-64 bg-slate-900 text-white flex flex-col transition-all duration-300 hidden md:flex">
-        <div className="p-6 text-2xl font-bold tracking-wider text-blue-400 border-b border-slate-800">
-          OMNI<span className="text-white">SUITE</span>
-        </div>
-        <nav className="flex-1 p-4 space-y-2">
-          <NavItem icon={<FiHome size={20} />} label="Dashboard" isActive={activeTab === 'dashboard'} onClick={() => setActiveTab('dashboard')} />
-          <NavItem icon={<MdOutlineCalculate size={20} />} label="POS System" isActive={activeTab === 'pos'} onClick={() => setActiveTab('pos')} />
-          <NavItem icon={<FiShoppingCart size={20} />} label="Food & Orders" isActive={activeTab === 'orders'} onClick={() => setActiveTab('orders')} />
-          <NavItem icon={<FiCalendar size={20} />} label="Bookings" isActive={activeTab === 'bookings'} onClick={() => setActiveTab('bookings')} />
-        </nav>
-        <div className="p-4 border-t border-slate-800 text-sm text-slate-400">
-          © 2026 OmniSuite Inc.
-        </div>
-      </aside>
+    <div className="mp-root min-h-screen pb-16">
+      <GlobalStyle />
 
-      {/* MAIN CONTENT */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        {/* HEADER */}
-        <header className="h-16 bg-white shadow-sm flex items-center justify-between px-6 z-10">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden text-gray-500 hover:text-gray-700">
-              <FiMenu size={24} />
-            </button>
-            <div className="relative hidden sm:block">
-              <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search anything..." 
-                className="pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-full focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all"
-              />
+      {/* PORTAL SWITCHER HEADER */}
+      <header className="bg-[var(--pitch)] text-white border-b border-white/10 sticky top-0 z-50 shadow-md">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[var(--amber)] flex items-center justify-center font-bold text-white text-xl shadow">
+              OR
+            </div>
+            <div>
+              <span className="mp-display text-xl tracking-tight">OmniReserve</span>
+              <span className="block text-[10px] font-bold text-[var(--amber)] uppercase tracking-widest -mt-1">
+                Portal Management Engine
+              </span>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <button className="relative p-2 text-gray-500 hover:bg-gray-100 rounded-full transition-colors">
-              <FiBell size={20} />
-              <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-            </button>
-            <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded-lg transition-colors">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                AD
-              </div>
-              <span className="font-medium text-sm hidden sm:block">Admin User</span>
-            </div>
-          </div>
-        </header>
 
-        {/* DYNAMIC CONTENT AREA */}
-        <div className="flex-1 overflow-auto p-6">
-          {activeTab === 'dashboard' && <DashboardModule />}
-          {activeTab === 'pos' && <POSModule />}
-          {activeTab === 'orders' && <OrdersModule />}
-          {activeTab === 'bookings' && <BookingsModule />}
+          {/* ROLE / PORTAL TOGGLE BUTTONS */}
+          <div className="bg-black/30 p-1.5 rounded-2xl border border-white/10 flex items-center gap-1">
+            <button
+              onClick={() => setActivePortal("admin")}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                activePortal === "admin"
+                  ? "bg-[var(--amber)] text-white shadow-md"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              🛡️ Admin Portal
+            </button>
+            <button
+              onClick={() => setActivePortal("subscriber")}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                activePortal === "subscriber"
+                  ? "bg-[var(--amber)] text-white shadow-md"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              ⭐ Subscriber Portal
+            </button>
+            <button
+              onClick={() => setActivePortal("booker")}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                activePortal === "booker"
+                  ? "bg-[var(--amber)] text-white shadow-md"
+                  : "text-white/70 hover:text-white"
+              }`}
+            >
+              🎟️ Booker Portal
+            </button>
+          </div>
         </div>
+      </header>
+
+      {/* RENDER ACTIVE PORTAL */}
+      <main className="max-w-7xl mx-auto px-6 pt-8">
+        {activePortal === "admin" && (
+          <AdminPortal
+            categories={categories}
+            setCategories={setCategories}
+            venues={venues}
+            setVenues={setVenues}
+            orders={orders}
+            setOrders={setOrders}
+          />
+        )}
+        {activePortal === "subscriber" && <SubscriberPortal />}
+        {activePortal === "booker" && (
+          <BookerPortal
+            reservations={reservations}
+            setReservations={setReservations}
+          />
+        )}
       </main>
     </div>
   );
 }
 
-// --- SUB-COMPONENTS ---
+/* ============================================================
+   1. ADMIN PORTAL (FULL CRUD & AUDIT)
+============================================================ */
+function AdminPortal({ categories, setCategories, venues, setVenues, orders, setOrders }) {
+  const [tab, setActiveTab] = useState("overview");
 
-function NavItem({ icon, label, isActive, onClick }) {
-  return (
-    <button 
-      onClick={onClick}
-      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
-        isActive ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-      }`}
-    >
-      {icon}
-      <span className="font-medium">{label}</span>
-    </button>
-  );
-}
+  // Modal State
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showVenueModal, setShowVenueModal] = useState(false);
+  const [newCat, setNewCat] = useState({ name: "", key: "", icon: "⚽" });
+  const [newVenue, setNewVenue] = useState({ name: "", categoryId: 1, area: "", basePrice: 20, feePercent: 10, unit: "court" });
 
-function DashboardModule() {
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    if (!newCat.name) return;
+    setCategories([...categories, { ...newCat, id: Date.now(), count: 0 }]);
+    setNewCat({ name: "", key: "", icon: "⚽" });
+    setShowCategoryModal(false);
+  };
+
+  const handleAddVenue = (e) => {
+    e.preventDefault();
+    if (!newVenue.name) return;
+    setVenues([...venues, { ...newVenue, id: Date.now(), categoryId: Number(newVenue.categoryId) }]);
+    setNewVenue({ name: "", categoryId: 1, area: "", basePrice: 20, feePercent: 10, unit: "court" });
+    setShowVenueModal(false);
+  };
+
+  const handleUpdateOrderStatus = (orderId, newStatus) => {
+    setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+  };
+
+  const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+  const totalFees = orders.reduce((sum, o) => sum + o.fee, 0);
+
   return (
-    <div className="space-y-6 animate-fade-in">
-      <h1 className="text-2xl font-bold text-gray-800">Overview</h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <StatCard title="Today's Sales" value="$4,250" trend="+12%" color="bg-blue-500" />
-        <StatCard title="Active Bookings" value="142" trend="+5%" color="bg-emerald-500" />
-        <StatCard title="Pending Orders" value="28" trend="-2%" color="bg-orange-500" />
-        <StatCard title="Available Rooms" value="15" trend="Steady" color="bg-purple-500" />
+    <div className="screen-anim space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-wider text-[var(--amber)]">Control Center</span>
+          <h1 className="mp-display text-3xl text-[var(--pitch)]">Platform Administrator</h1>
+        </div>
+        <div className="flex gap-2 bg-white p-1.5 rounded-2xl border border-[var(--line-dark-strong)] shadow-sm">
+          <button
+            onClick={() => setActiveTab("overview")}
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${tab === "overview" ? "bg-[var(--pitch)] text-white" : "text-[var(--ink-dim)]"}`}
+          >
+            Overview & Metrics
+          </button>
+          <button
+            onClick={() => setActiveTab("management")}
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${tab === "management" ? "bg-[var(--pitch)] text-white" : "text-[var(--ink-dim)]"}`}
+          >
+            Venues & Categories
+          </button>
+          <button
+            onClick={() => setActiveTab("orders")}
+            className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${tab === "orders" ? "bg-[var(--pitch)] text-white" : "text-[var(--ink-dim)]"}`}
+          >
+            Orders & Revenue
+          </button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold mb-4">Recent Transactions</h2>
-          <div className="space-y-4">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="flex justify-between items-center p-3 hover:bg-gray-50 rounded-lg border border-transparent hover:border-gray-100 cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
-                    <FiCreditCard size={18} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm">Order #{1040 + i}</p>
-                    <p className="text-xs text-gray-500">2 mins ago</p>
-                  </div>
-                </div>
-                <span className="font-bold">${(Math.random() * 100).toFixed(2)}</span>
-              </div>
-            ))}
+
+      {/* OVERVIEW TAB */}
+      {tab === "overview" && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white p-5 rounded-3xl border border-[var(--line-dark-strong)] shadow-sm">
+              <span className="text-xs font-bold text-[var(--ink-dim)] uppercase block">Gross Volume</span>
+              <span className="mp-display text-2xl text-[var(--pitch)] mt-1 block">${totalRevenue.toFixed(2)}</span>
+            </div>
+            <div className="bg-white p-5 rounded-3xl border border-[var(--line-dark-strong)] shadow-sm">
+              <span className="text-xs font-bold text-[var(--amber)] uppercase block">Platform Fees (10%)</span>
+              <span className="mp-display text-2xl text-[var(--pitch)] mt-1 block">${totalFees.toFixed(2)}</span>
+            </div>
+            <div className="bg-white p-5 rounded-3xl border border-[var(--line-dark-strong)] shadow-sm">
+              <span className="text-xs font-bold text-[var(--ink-dim)] uppercase block">Active Venues</span>
+              <span className="mp-display text-2xl text-[var(--pitch)] mt-1 block">{venues.length}</span>
+            </div>
+            <div className="bg-white p-5 rounded-3xl border border-[var(--line-dark-strong)] shadow-sm">
+              <span className="text-xs font-bold text-[var(--ink-dim)] uppercase block">Total Orders</span>
+              <span className="mp-display text-2xl text-[var(--pitch)] mt-1 block">{orders.length}</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
+      )}
 
-function StatCard({ title, value, trend, color }) {
-  return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col gap-2 relative overflow-hidden group">
-      <div className={`absolute top-0 right-0 w-24 h-24 ${color} opacity-10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110`}></div>
-      <h3 className="text-gray-500 font-medium text-sm">{title}</h3>
-      <p className="text-3xl font-bold text-gray-800">{value}</p>
-      <span className={`text-xs font-semibold ${trend.includes('+') ? 'text-green-500' : trend.includes('-') ? 'text-red-500' : 'text-gray-400'}`}>
-        {trend} from yesterday
-      </span>
-    </div>
-  );
-}
-
-function POSModule() {
-  const [cart, setCart] = useState([]);
-
-  const addToCart = (item) => {
-    setCart(prev => {
-      const existing = prev.find(i => i.id === item.id);
-      if (existing) {
-        return prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i);
-      }
-      return [...prev, { ...item, qty: 1 }];
-    });
-  };
-
-  const updateQty = (id, delta) => {
-    setCart(prev => prev.map(item => {
-      if (item.id === id) {
-        const newQty = item.qty + delta;
-        return newQty > 0 ? { ...item, qty: newQty } : null;
-      }
-      return item;
-    }).filter(Boolean));
-  };
-
-  const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-  const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax;
-
-  return (
-    <div className="flex h-full gap-6 animate-fade-in">
-      {/* ITEMS GRID */}
-      <div className="flex-1 flex flex-col h-full bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
-        <div className="flex gap-2 mb-4">
-          {['All', 'Food', 'Beverage', 'Sides'].map(cat => (
-            <button key={cat} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-              {cat}
-            </button>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto pr-2 pb-20">
-          {FOOD_ITEMS.map(item => (
-            <div 
-              key={item.id} 
-              onClick={() => addToCart(item)}
-              className="border border-gray-200 p-4 rounded-xl cursor-pointer hover:border-blue-500 hover:shadow-md transition-all group flex flex-col justify-between h-32"
-            >
-              <h3 className="font-semibold text-gray-700 group-hover:text-blue-600">{item.name}</h3>
-              <p className="text-lg font-bold text-gray-900">${item.price.toFixed(2)}</p>
+      {/* MANAGEMENT TAB (CRUD) */}
+      {tab === "management" && (
+        <div className="space-y-8">
+          {/* CATEGORIES SECTION */}
+          <div className="bg-white rounded-3xl p-6 border border-[var(--line-dark-strong)] shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="mp-display text-xl text-[var(--pitch)]">Categories</h3>
+              <button
+                onClick={() => setShowCategoryModal(true)}
+                className="px-4 py-2 bg-[var(--amber)] text-white font-bold text-xs rounded-xl shadow"
+              >
+                + Add Category
+              </button>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* CURRENT TICKET / CART */}
-      <div className="w-96 bg-white rounded-2xl shadow-sm border border-gray-100 flex flex-col">
-        <div className="p-4 border-b border-gray-100 bg-gray-50 rounded-t-2xl">
-          <h2 className="font-bold text-lg">Current Ticket</h2>
-          <p className="text-xs text-gray-500">Order #1045</p>
-        </div>
-        
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {cart.length === 0 ? (
-            <div className="h-full flex items-center justify-center text-gray-400 text-sm">Cart is empty</div>
-          ) : (
-            cart.map(item => (
-              <div key={item.id} className="flex justify-between items-center">
-                <div className="flex-1">
-                  <p className="font-semibold text-sm truncate">{item.name}</p>
-                  <p className="text-xs text-gray-500">${item.price.toFixed(2)}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              {categories.map((cat) => (
+                <div key={cat.id} className="p-4 rounded-2xl bg-[var(--chalk)] border border-[var(--line-dark)] flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{cat.icon}</span>
+                    <div>
+                      <h4 className="font-bold text-sm text-[var(--pitch)]">{cat.name}</h4>
+                      <span className="text-xs text-[var(--ink-dim)]">{cat.key}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setCategories(categories.filter(c => c.id !== cat.id))}
+                    className="text-xs text-red-500 font-bold hover:underline"
+                  >
+                    Delete
+                  </button>
                 </div>
-                <div className="flex items-center gap-3 bg-gray-100 rounded-lg p-1">
-                  <button onClick={() => updateQty(item.id, -1)} className="p-1 hover:bg-white rounded"><FiMinus size={14}/></button>
-                  <span className="text-sm font-bold w-4 text-center">{item.qty}</span>
-                  <button onClick={() => updateQty(item.id, 1)} className="p-1 hover:bg-white rounded shadow-sm"><FiPlus size={14}/></button>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+              ))}
+            </div>
+          </div>
 
-        <div className="p-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
-          <div className="flex justify-between text-sm mb-2 text-gray-500"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
-          <div className="flex justify-between text-sm mb-4 text-gray-500"><span>Tax (10%)</span><span>${tax.toFixed(2)}</span></div>
-          <div className="flex justify-between text-xl font-bold mb-4"><span>Total</span><span>${total.toFixed(2)}</span></div>
-          <button 
-            disabled={cart.length === 0}
-            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-          >
-            Pay ${total.toFixed(2)}
-          </button>
+          {/* VENUES SECTION */}
+          <div className="bg-white rounded-3xl p-6 border border-[var(--line-dark-strong)] shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="mp-display text-xl text-[var(--pitch)]">Venues & Spaces</h3>
+              <button
+                onClick={() => setShowVenueModal(true)}
+                className="px-4 py-2 bg-[var(--amber)] text-white font-bold text-xs rounded-xl shadow"
+              >
+                + Add Venue
+              </button>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr className="border-b border-[var(--line-dark)] text-xs font-bold uppercase text-[var(--ink-dim)]">
+                    <th className="py-3 px-4">Venue Name</th>
+                    <th className="py-3 px-4">Area</th>
+                    <th className="py-3 px-4">Base Rate</th>
+                    <th className="py-3 px-4">Fee %</th>
+                    <th className="py-3 px-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[var(--line-dark)]">
+                  {venues.map((v) => (
+                    <tr key={v.id}>
+                      <td className="py-3 px-4 font-bold text-[var(--pitch)]">{v.name}</td>
+                      <td className="py-3 px-4 text-[var(--ink-dim)]">{v.area}</td>
+                      <td className="py-3 px-4 font-semibold">${v.basePrice}/{v.unit}</td>
+                      <td className="py-3 px-4 text-[var(--amber)] font-bold">{v.feePercent}%</td>
+                      <td className="py-3 px-4">
+                        <button
+                          onClick={() => setVenues(venues.filter(x => x.id !== v.id))}
+                          className="text-xs font-bold text-red-500 hover:underline"
+                        >
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  );
-}
+      )}
 
-function OrdersModule() {
-  return (
-    <div className="animate-fade-in bg-white rounded-2xl shadow-sm border border-gray-100 p-6 h-full flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Online & Delivery Orders</h1>
-        <div className="flex gap-2">
-           <button className="px-4 py-2 bg-blue-50 text-blue-600 rounded-lg font-medium text-sm">Active</button>
-           <button className="px-4 py-2 hover:bg-gray-50 text-gray-600 rounded-lg font-medium text-sm">Completed</button>
-        </div>
-      </div>
-      
-      <div className="flex-1 overflow-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-gray-200 text-gray-500 text-sm">
-              <th className="py-3 px-4 font-medium">Order ID</th>
-              <th className="py-3 px-4 font-medium">Customer</th>
-              <th className="py-3 px-4 font-medium">Type</th>
-              <th className="py-3 px-4 font-medium">Status</th>
-              <th className="py-3 px-4 font-medium">Total</th>
-              <th className="py-3 px-4 font-medium">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[1, 2, 3, 4, 5].map((i) => (
-              <tr key={i} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                <td className="py-4 px-4 font-semibold text-sm">#ORD-90{i}</td>
-                <td className="py-4 px-4 text-sm">
-                  <p className="font-medium">John Doe {i}</p>
-                  <p className="text-xs text-gray-400">123 Main St, City</p>
-                </td>
-                <td className="py-4 px-4">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium bg-orange-100 text-orange-700">
-                    <FiMapPin size={12}/> Delivery
-                  </span>
-                </td>
-                <td className="py-4 px-4">
-                  <span className="px-2 py-1 rounded-md text-xs font-medium bg-yellow-100 text-yellow-700">Preparing</span>
-                </td>
-                <td className="py-4 px-4 font-bold text-sm">$34.50</td>
-                <td className="py-4 px-4">
-                  <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">Update Status</button>
-                </td>
+      {/* ORDERS TAB */}
+      {tab === "orders" && (
+        <div className="bg-white rounded-3xl p-6 border border-[var(--line-dark-strong)] shadow-sm overflow-x-auto">
+          <h3 className="mp-display text-xl text-[var(--pitch)] mb-4">Order Audit Ledger</h3>
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-[var(--line-dark)] text-xs font-bold uppercase text-[var(--ink-dim)]">
+                <th className="py-3 px-4">Order Code</th>
+                <th className="py-3 px-4">Customer</th>
+                <th className="py-3 px-4">Total</th>
+                <th className="py-3 px-4">Platform Fee</th>
+                <th className="py-3 px-4">Status</th>
+                <th className="py-3 px-4">Toggle Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-function BookingsModule() {
-  const [bookingType, setBookingType] = useState('hotel');
-
-  return (
-    <div className="animate-fade-in flex flex-col h-full">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Booking Management</h1>
-        <div className="bg-gray-200 p-1 rounded-xl flex gap-1">
-          <button 
-            onClick={() => setBookingType('hotel')}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${bookingType === 'hotel' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Hotel Rooms
-          </button>
-          <button 
-            onClick={() => setBookingType('sports')}
-            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all ${bookingType === 'sports' ? 'bg-white shadow-sm text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Sports Facilities
-          </button>
+            </thead>
+            <tbody className="divide-y divide-[var(--line-dark)] text-sm">
+              {orders.map((order) => (
+                <tr key={order.id} className="hover:bg-[var(--chalk)]">
+                  <td className="py-3 px-4 font-bold text-[var(--pitch)]">{order.id}</td>
+                  <td className="py-3 px-4">
+                    <div className="font-bold">{order.guest}</div>
+                    <div className="text-xs text-[var(--ink-dim)]">{order.email}</div>
+                  </td>
+                  <td className="py-3 px-4 font-semibold">${order.total.toFixed(2)}</td>
+                  <td className="py-3 px-4 text-green-600 font-semibold">${order.fee.toFixed(2)}</td>
+                  <td className="py-3 px-4">
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-extrabold uppercase ${order.status === "paid" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}`}>
+                      {order.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <button
+                      onClick={() => handleUpdateOrderStatus(order.id, order.status === "paid" ? "pending" : "paid")}
+                      className="text-xs text-[var(--amber)] font-bold hover:underline"
+                    >
+                      Set to {order.status === "paid" ? "Pending" : "Paid"}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </div>
+      )}
 
-      <div className="flex gap-6 h-full">
-        {/* NEW BOOKING FORM */}
-        <div className="w-1/3 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-          <h2 className="text-lg font-bold mb-4">New {bookingType === 'hotel' ? 'Room' : 'Facility'} Booking</h2>
-          <form className="space-y-4" onSubmit={e => e.preventDefault()}>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Select {bookingType === 'hotel' ? 'Room' : 'Facility'}</label>
-              <select className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
-                {(bookingType === 'hotel' ? HOTEL_ROOMS : SPORTS_FACILITIES).map((item, idx) => (
-                  <option key={idx} value={item}>{item}</option>
-                ))}
-              </select>
+      {/* CATEGORY MODAL */}
+      {showCategoryModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <form onSubmit={handleAddCategory} className="bg-white p-6 rounded-3xl max-w-sm w-full space-y-4">
+            <h3 className="mp-display text-xl text-[var(--pitch)]">Add Category</h3>
+            <input
+              type="text"
+              placeholder="Category Name"
+              value={newCat.name}
+              onChange={e => setNewCat({ ...newCat, name: e.target.value, key: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
+              className="w-full p-3 border rounded-xl text-sm outline-none"
+            />
+            <div className="flex justify-end gap-2 pt-2">
+              <button type="button" onClick={() => setShowCategoryModal(false)} className="px-4 py-2 text-xs font-bold">Cancel</button>
+              <button type="submit" className="px-4 py-2 bg-[var(--amber)] text-white font-bold text-xs rounded-xl">Save</button>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                <input type="date" className="w-full p-2 border border-gray-300 rounded-lg outline-none" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Time / Nights</label>
-                <input type="text" placeholder={bookingType === 'hotel' ? 'e.g., 2 Nights' : 'e.g., 14:00 - 16:00'} className="w-full p-2 border border-gray-300 rounded-lg outline-none" />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Customer Name</label>
-              <input type="text" placeholder="John Doe" className="w-full p-2 border border-gray-300 rounded-lg outline-none" />
-            </div>
-            <button className="w-full py-3 mt-4 bg-gray-900 hover:bg-black text-white rounded-xl font-bold transition-colors">
-              Confirm Booking
-            </button>
           </form>
         </div>
+      )}
 
-        {/* SCHEDULE VIEW */}
-        <div className="flex-1 bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-y-auto">
-          <h2 className="text-lg font-bold mb-4">Today's Schedule</h2>
-          <div className="space-y-4">
-            {[1, 2, 3, 4].map(i => (
-              <div key={i} className="flex items-center justify-between p-4 border border-gray-100 rounded-xl hover:shadow-md transition-shadow bg-gray-50">
-                <div className="flex items-center gap-4">
-                  <div className="bg-blue-100 text-blue-600 p-3 rounded-lg">
-                    <FiClock size={20} />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-800">
-                      {bookingType === 'hotel' ? HOTEL_ROOMS[i-1] : SPORTS_FACILITIES[i-1]}
-                    </h3>
-                    <p className="text-sm text-gray-500">Booked by: Sarah Smith</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="font-bold text-gray-800">{bookingType === 'hotel' ? 'Check-in: 14:00' : '10:00 AM - 12:00 PM'}</p>
-                  <span className="inline-block mt-1 px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded">Confirmed</span>
-                </div>
-              </div>
-            ))}
+      {/* VENUE MODAL */}
+      {showVenueModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <form onSubmit={handleAddVenue} className="bg-white p-6 rounded-3xl max-w-md w-full space-y-4">
+            <h3 className="mp-display text-xl text-[var(--pitch)]">Add Venue</h3>
+            <input
+              type="text"
+              placeholder="Venue Name"
+              value={newVenue.name}
+              onChange={e => setNewVenue({ ...newVenue, name: e.target.value })}
+              className="w-full p-3 border rounded-xl text-sm outline-none"
+            />
+            <input
+              type="text"
+              placeholder="Area / Location"
+              value={newVenue.area}
+              onChange={e => setNewVenue({ ...newVenue, area: e.target.value })}
+              className="w-full p-3 border rounded-xl text-sm outline-none"
+            />
+            <div className="grid grid-cols-2 gap-3">
+              <input
+                type="number"
+                placeholder="Base Price ($)"
+                value={newVenue.basePrice}
+                onChange={e => setNewVenue({ ...newVenue, basePrice: Number(e.target.value) })}
+                className="p-3 border rounded-xl text-sm outline-none"
+              />
+              <input
+                type="number"
+                placeholder="Fee Percentage (%)"
+                value={newVenue.feePercent}
+                onChange={e => setNewVenue({ ...newVenue, feePercent: Number(e.target.value) })}
+                className="p-3 border rounded-xl text-sm outline-none"
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button type="button" onClick={() => setShowVenueModal(false)} className="px-4 py-2 text-xs font-bold">Cancel</button>
+              <button type="submit" className="px-4 py-2 bg-[var(--amber)] text-white font-bold text-xs rounded-xl">Save</button>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ============================================================
+   2. SUBSCRIBER PORTAL (UPGRADES & PERKS)
+============================================================ */
+function SubscriberPortal() {
+  const [tier, setTier] = useState("monthly_pass"); // 'single' | 'monthly_pass' | 'vip'
+  const [autoRenew, setAutoRenew] = useState(true);
+
+  return (
+    <div className="screen-anim space-y-8 max-w-4xl mx-auto">
+      <div>
+        <span className="text-xs font-bold uppercase tracking-wider text-[var(--amber)]">VIP Member Dashboard</span>
+        <h1 className="mp-display text-3xl text-[var(--pitch)]">Subscription Settings</h1>
+      </div>
+
+      {/* PLAN CARD */}
+      <div className="bg-gradient-to-br from-[var(--pitch)] to-[var(--pitch-3)] text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-6 mb-6">
+          <div>
+            <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-[var(--amber)] text-white uppercase tracking-wider inline-block mb-2">
+              {tier === "vip" ? "30% OFF • VIP" : tier === "monthly_pass" ? "15% OFF" : "Standard"}
+            </span>
+            <h2 className="mp-display text-3xl">
+              {tier === "vip" ? "VIP Elite Membership" : tier === "monthly_pass" ? "Flex Pass Subscription" : "Pay-As-You-Go"}
+            </h2>
+            <p className="text-xs text-white/70 mt-1">Status: Active ✓</p>
+          </div>
+          <div className="text-left sm:text-right">
+            <span className="text-xs text-white/60 block uppercase font-bold">Billing Rate</span>
+            <span className="mp-display text-2xl text-[var(--amber)]">
+              {tier === "vip" ? "$49.00/mo" : tier === "monthly_pass" ? "$29.00/mo" : "$0.00/mo"}
+            </span>
+          </div>
+        </div>
+
+        {/* CONTROLS */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              id="autoRenew"
+              checked={autoRenew}
+              onChange={() => setAutoRenew(!autoRenew)}
+              className="w-4 h-4 accent-[var(--amber)] cursor-pointer"
+            />
+            <label htmlFor="autoRenew" className="text-xs font-bold text-white/90 cursor-pointer">
+              Auto-renew subscription on next billing cycle
+            </label>
+          </div>
+
+          {/* TIER UPGRADE BUTTONS */}
+          <div className="flex gap-2">
+            <button
+              onClick={() => setTier("monthly_pass")}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${tier === "monthly_pass" ? "bg-white text-[var(--pitch)]" : "bg-white/10 text-white"}`}
+            >
+              Flex Pass
+            </button>
+            <button
+              onClick={() => setTier("vip")}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${tier === "vip" ? "bg-white text-[var(--pitch)]" : "bg-white/10 text-white"}`}
+            >
+              VIP Tier
+            </button>
           </div>
         </div>
       </div>
+
+      {/* BILLING HISTORY */}
+      <div className="bg-white rounded-3xl p-6 border border-[var(--line-dark-strong)] shadow-sm">
+        <h3 className="mp-display text-xl text-[var(--pitch)] mb-4">Subscription Invoices</h3>
+        <div className="space-y-3 text-sm">
+          <div className="flex justify-between items-center py-2 border-b border-[var(--line-dark)]">
+            <div>
+              <div className="font-bold text-[var(--pitch)]">September 2026 Renewal</div>
+              <div className="text-xs text-[var(--ink-dim)]">Paid via Visa ending in 4242</div>
+            </div>
+            <span className="font-bold">$29.00</span>
+          </div>
+          <div className="flex justify-between items-center py-2">
+            <div>
+              <div className="font-bold text-[var(--pitch)]">August 2026 Renewal</div>
+              <div className="text-xs text-[var(--ink-dim)]">Paid via Visa ending in 4242</div>
+            </div>
+            <span className="font-bold">$29.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================
+   3. BOOKER PORTAL (QR PASS CODES & RECEIPT PRINT)
+============================================================ */
+function BookerPortal({ reservations, setReservations }) {
+  const [activePass, setActivePass] = useState(null);
+
+  const handleCancel = (id) => {
+    setReservations(reservations.map(r => r.id === id ? { ...r, status: "cancelled" } : r));
+  };
+
+  return (
+    <div className="screen-anim space-y-8 max-w-4xl mx-auto">
+      <div className="flex justify-between items-center">
+        <div>
+          <span className="text-xs font-bold uppercase tracking-wider text-[var(--amber)]">Customer Account</span>
+          <h1 className="mp-display text-3xl text-[var(--pitch)]">My Reservation Passes</h1>
+        </div>
+        <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-white border border-[var(--line-dark-strong)] text-[var(--pitch)]">
+          {reservations.filter(r => r.status === "confirmed").length} Active Passes
+        </span>
+      </div>
+
+      {/* RESERVATION LIST */}
+      <div className="space-y-4">
+        {reservations.map((res) => (
+          <div key={res.id} className="bg-white rounded-3xl border border-[var(--line-dark-strong)] p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 shadow-sm">
+            <div>
+              <span className="text-[10px] font-bold uppercase px-2.5 py-1 rounded bg-[var(--chalk)] text-[var(--pitch)] border border-[var(--line-dark)]">
+                {res.category}
+              </span>
+              <h3 className="mp-display text-xl text-[var(--pitch)] mt-2">{res.venue}</h3>
+              <div className="text-xs text-[var(--ink-dim)] mt-1">
+                📅 <b className="text-[var(--ink)]">{res.date}</b> at <b className="text-[var(--ink)]">{res.time}</b> • Paid: <b className="text-green-600">${res.price.toFixed(2)}</b>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:items-end gap-3 w-full sm:w-auto border-t sm:border-t-0 pt-4 sm:pt-0 border-[var(--line-dark)]">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setActivePass(res)}
+                  className="text-xs font-bold bg-[var(--pitch)] text-white px-3 py-1.5 rounded-xl shadow"
+                >
+                  View Pass / QR
+                </button>
+                <span className="mp-display text-sm text-[var(--amber)] bg-[var(--chalk)] px-3 py-1 rounded-xl border border-[var(--line-dark)] font-mono">
+                  {res.passCode}
+                </span>
+              </div>
+
+              {res.status === "confirmed" ? (
+                <button
+                  onClick={() => handleCancel(res.id)}
+                  className="px-3 py-1 bg-red-50 text-red-600 border border-red-200 font-bold text-xs rounded-xl hover:bg-red-100"
+                >
+                  Cancel Booking
+                </button>
+              ) : (
+                <span className={`text-xs font-bold uppercase px-3 py-1 rounded-full ${res.status === "completed" ? "bg-gray-100 text-gray-600" : "bg-red-100 text-red-600"}`}>
+                  {res.status}
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* PASS / QR MODAL */}
+      {activePass && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-sm w-full text-center space-y-6 shadow-2xl relative">
+            <button
+              onClick={() => setActivePass(null)}
+              className="absolute top-4 right-4 text-xs font-bold text-gray-400 hover:text-black"
+            >
+              ✕ Close
+            </button>
+            <div>
+              <span className="text-xs font-bold text-[var(--amber)] uppercase tracking-wider block">Entry Pass</span>
+              <h3 className="mp-display text-2xl text-[var(--pitch)] mt-1">{activePass.venue}</h3>
+            </div>
+
+            {/* GENERATED SVG QR CODE MOCK */}
+            <div className="w-44 h-44 mx-auto bg-gray-100 rounded-2xl flex flex-col items-center justify-center border-2 border-dashed border-[var(--amber)] p-4">
+              <div className="grid grid-cols-4 gap-2 w-full h-full opacity-80">
+                <div className="bg-black rounded"></div><div className="bg-black rounded"></div><div className="bg-transparent"></div><div className="bg-black rounded"></div>
+                <div className="bg-transparent"></div><div className="bg-black rounded"></div><div className="bg-black rounded"></div><div className="bg-transparent"></div>
+                <div className="bg-black rounded"></div><div className="bg-transparent"></div><div className="bg-black rounded"></div><div className="bg-black rounded"></div>
+                <div className="bg-black rounded"></div><div className="bg-black rounded"></div><div className="bg-transparent"></div><div className="bg-black rounded"></div>
+              </div>
+            </div>
+
+            <div>
+              <span className="text-xs text-[var(--ink-dim)] block">Show code at reception</span>
+              <span className="mp-display text-xl text-[var(--pitch)] font-mono">{activePass.passCode}</span>
+            </div>
+
+            <button
+              onClick={() => window.print()}
+              className="w-full py-3 bg-[var(--pitch)] text-white text-xs font-bold rounded-xl"
+            >
+              🖨️ Print Pass Receipt
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

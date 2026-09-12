@@ -1,28 +1,83 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Admin\AdminVenueController;
+use App\Http\Controllers\Booker\BookerDashboardController;
+use App\Http\Controllers\Booker\BookerReservationController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    // return Inertia::render('Welcome', [
-    //     'canLogin' => Route::has('login'),
-    //     'canRegister' => Route::has('register'),
-    //     'laravelVersion' => Application::VERSION,
-    //     'phpVersion' => PHP_VERSION,
-    // ]);
-     return Inertia::render('home/page');
+    return Inertia::render('home/page');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/administrator/dashboard', function () {
+    return Inertia::render('administrator/page');
+});
 
+/*
+|--------------------------------------------------------------------------
+| Profile Routes (Authenticated Users)
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Admin Portal Routes
+|--------------------------------------------------------------------------
+*/
+// Route::middleware(['auth', 'verified', 'role:admin'])
+//     ->prefix('admin')
+//     ->name('admin.')
+//     ->group(function () {
+//         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+//         // Admin Management Resources
+//         Route::resource('categories', AdminCategoryController::class);
+//         Route::resource('venues', AdminVenueController::class);
+//         Route::resource('orders', AdminOrderController::class)->only(['index', 'show', 'update', 'destroy']);
+//     });
+
+/*
+|--------------------------------------------------------------------------
+| Subscriber / Booker Portal Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified', 'role:subscriber,booker'])
+    ->prefix('portal')
+    ->name('booker.')
+    ->group(function () {
+        Route::get('/dashboard', [BookerDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/reservations/{id}', [BookerReservationController::class, 'show'])->name('reservations.show');
+        Route::post('/reservations/{id}/cancel', [BookerReservationController::class, 'cancel'])->name('reservations.cancel');
+    });
+
+/*
+|--------------------------------------------------------------------------
+| Dynamic Role Dashboard Redirect
+|--------------------------------------------------------------------------
+*/
+Route::get('/dashboard', function () {
+    $user = auth()->user();
+
+    if ($user->role === 'admin') {
+        return redirect()->route('admin.dashboard');
+    }
+
+    return redirect()->route('booker.dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';

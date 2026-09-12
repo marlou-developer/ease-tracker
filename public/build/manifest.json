@@ -1,19 +1,161 @@
 {
+  "_mockData-DgRAG_bW.js": {
+    "file": "assets/mockData-DgRAG_bW.js",
+    "name": "mockData"
+  },
+  "_service-category-icon-CA77KnRV.js": {
+    "file": "assets/service-category-icon-CA77KnRV.js",
+    "name": "service-category-icon",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
   "resources/js/app.jsx": {
-    "file": "assets/app-VagLv-4G.js",
+    "file": "assets/app-LAzeghrL.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
     "dynamicImports": [
+      "resources/js/app/_components/toast-stack.jsx",
+      "resources/js/app/_sections/cart-screen.jsx",
+      "resources/js/app/_sections/category-grid.jsx",
+      "resources/js/app/_sections/category-screen.jsx",
+      "resources/js/app/_sections/confirm-screen.jsx",
+      "resources/js/app/_sections/footer.jsx",
+      "resources/js/app/_sections/my-book-screen.jsx",
+      "resources/js/app/_sections/navbar.jsx",
+      "_service-category-icon-CA77KnRV.js",
+      "resources/js/app/_sections/sign-in.jsx",
+      "resources/js/app/_sections/success-screen.jsx",
+      "resources/js/app/_sections/venue-screen.jsx",
+      "resources/js/app/_styles/global-style.jsx",
       "resources/js/app/administrator/page.jsx",
       "resources/js/app/home/page.jsx"
     ],
     "css": [
-      "assets/app-DBhn690D.css"
+      "assets/app-xiy9RD1A.css"
+    ]
+  },
+  "resources/js/app/_components/toast-stack.jsx": {
+    "file": "assets/toast-stack-DfqZyBCC.js",
+    "name": "toast-stack",
+    "src": "resources/js/app/_components/toast-stack.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app/_sections/cart-screen.jsx": {
+    "file": "assets/cart-screen-Pi_Ubu09.js",
+    "name": "cart-screen",
+    "src": "resources/js/app/_sections/cart-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js"
+    ]
+  },
+  "resources/js/app/_sections/category-grid.jsx": {
+    "file": "assets/category-grid-BO1E7YKv.js",
+    "name": "category-grid",
+    "src": "resources/js/app/_sections/category-grid.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js",
+      "_service-category-icon-CA77KnRV.js"
+    ]
+  },
+  "resources/js/app/_sections/category-screen.jsx": {
+    "file": "assets/category-screen-CpzosK54.js",
+    "name": "category-screen",
+    "src": "resources/js/app/_sections/category-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js",
+      "_service-category-icon-CA77KnRV.js"
+    ]
+  },
+  "resources/js/app/_sections/confirm-screen.jsx": {
+    "file": "assets/confirm-screen-CwjQjLdF.js",
+    "name": "confirm-screen",
+    "src": "resources/js/app/_sections/confirm-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app/_sections/footer.jsx": {
+    "file": "assets/footer-CTjdR5rb.js",
+    "name": "footer",
+    "src": "resources/js/app/_sections/footer.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js",
+      "_service-category-icon-CA77KnRV.js"
+    ]
+  },
+  "resources/js/app/_sections/my-book-screen.jsx": {
+    "file": "assets/my-book-screen-BN-ziH3C.js",
+    "name": "my-book-screen",
+    "src": "resources/js/app/_sections/my-book-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js"
+    ]
+  },
+  "resources/js/app/_sections/navbar.jsx": {
+    "file": "assets/navbar-CC9k5QpA.js",
+    "name": "navbar",
+    "src": "resources/js/app/_sections/navbar.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_service-category-icon-CA77KnRV.js"
+    ]
+  },
+  "resources/js/app/_sections/sign-in.jsx": {
+    "file": "assets/sign-in-B_IcWBOe.js",
+    "name": "sign-in",
+    "src": "resources/js/app/_sections/sign-in.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app/_sections/success-screen.jsx": {
+    "file": "assets/success-screen-Dv4yNIMT.js",
+    "name": "success-screen",
+    "src": "resources/js/app/_sections/success-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "resources/js/app/_sections/venue-screen.jsx": {
+    "file": "assets/venue-screen-Bpvh4e9B.js",
+    "name": "venue-screen",
+    "src": "resources/js/app/_sections/venue-screen.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx",
+      "_mockData-DgRAG_bW.js"
+    ]
+  },
+  "resources/js/app/_styles/global-style.jsx": {
+    "file": "assets/global-style-DINHBRao.js",
+    "name": "global-style",
+    "src": "resources/js/app/_styles/global-style.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
     ]
   },
   "resources/js/app/administrator/page.jsx": {
-    "file": "assets/page-CTKGCPIa.js",
+    "file": "assets/page-BayXSpiZ.js",
     "name": "page",
     "src": "resources/js/app/administrator/page.jsx",
     "isDynamicEntry": true,
@@ -22,12 +164,25 @@
     ]
   },
   "resources/js/app/home/page.jsx": {
-    "file": "assets/page-KsqbSkvX.js",
+    "file": "assets/page-DcGyFCgT.js",
     "name": "page",
     "src": "resources/js/app/home/page.jsx",
     "isDynamicEntry": true,
     "imports": [
-      "resources/js/app.jsx"
+      "resources/js/app.jsx",
+      "resources/js/app/_components/toast-stack.jsx",
+      "_mockData-DgRAG_bW.js",
+      "resources/js/app/_sections/cart-screen.jsx",
+      "resources/js/app/_sections/category-grid.jsx",
+      "resources/js/app/_sections/category-screen.jsx",
+      "resources/js/app/_sections/confirm-screen.jsx",
+      "resources/js/app/_sections/footer.jsx",
+      "resources/js/app/_sections/my-book-screen.jsx",
+      "resources/js/app/_sections/navbar.jsx",
+      "resources/js/app/_sections/sign-in.jsx",
+      "resources/js/app/_sections/success-screen.jsx",
+      "resources/js/app/_sections/venue-screen.jsx",
+      "resources/js/app/_styles/global-style.jsx"
     ]
   }
 }
