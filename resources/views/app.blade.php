@@ -21,9 +21,9 @@
     <link rel="apple-touch-icon" href="{{ asset('images/icon-192.png') }}" />
 
     <!-- Scripts -->
-    @routes
+ @routes
     @viteReactRefresh
-    @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
+    @vite(['resources/js/app.jsx', "resources/js/app/{$page['component']}.jsx"])
     @inertiaHead
 </head>
 
