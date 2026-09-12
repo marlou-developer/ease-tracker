@@ -28,21 +28,51 @@
     @inertia
 
     <script>
-        // 1. Register Service Worker (Required for automatic browser install prompt)
+        let deferredPrompt;
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register("{{ asset('sw.js') }}")
-                    .then(reg => console.log('Service Worker Registered Successfully'))
-                    .catch(err => console.error('Service Worker Registration Failed:', err));
+                navigator.serviceWorker.register("{{ asset('sw.js') }}");
             });
         }
 
-        // 2. Automatic Install Suggestion Log
         window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('Browser installability criteria met. Native banner will show automatically.');
-            // DO NOT call e.preventDefault() here if you want the native browser banner to handle itself automatically.
+            // Prevent default quiet handling
+            e.preventDefault();
+            // Stash the event so it can be triggered by a button click
+            deferredPrompt = e;
+
+            // Show a custom floating install banner on the web app
+            const banner = document.getElementById('custom-install-banner');
+            if (banner) {
+                banner.style.display = 'flex';
+            }
         });
+
+        function triggerPWAInstall() {
+            if (!deferredPrompt) return;
+
+            // Show the native browser install dialog
+            deferredPrompt.prompt();
+
+            deferredPrompt.userChoice.then((choice) => {
+                if (choice.outcome === 'accepted') {
+                    document.getElementById('custom-install-banner').style.display = 'none';
+                }
+                deferredPrompt = null;
+            });
+        }
     </script>
+
+    <!-- Floating Install Notification Bar -->
+    <div id="custom-install-banner" style="display: none;" class="fixed bottom-6 right-6 left-6 sm:left-auto bg-[var(--pitch,#0f172a)] text-white p-4 rounded-2xl shadow-2xl z-50 flex items-center justify-between gap-4 max-w-md border border-gray-700">
+        <div>
+            <h4 className="font-bold text-sm">Install App</h4>
+        </div>
+        <button onclick="triggerPWAInstall()" class="px-4 py-2 bg-[var(--amber,#f59e0b)] hover:bg-amber-600 text-white text-xs font-bold rounded-xl whitespace-nowrap shadow">
+            Install Now
+        </button>
+    </div>
 </body>
 
 </html>
