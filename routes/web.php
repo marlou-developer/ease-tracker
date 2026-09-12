@@ -97,3 +97,32 @@ Route::get('/sw.js', function () {
         ->header('Content-Type', 'application/javascript')
         ->header('Service-Worker-Allowed', '/');
 });
+
+
+Route::get('/manifest.json', function () {
+    return response()->json([
+        'name' => 'Ease Reservation',
+        'short_name' => 'EaseRes',
+        'start_url' => '/',
+        'scope' => '/',
+        'id' => '/',
+        'background_color' => '#ffffff',
+        'theme_color' => '#0f172a',
+        'display' => 'standalone',
+        'orientation' => 'portrait',
+        'icons' => [
+            [
+                'src' => url('/images/logo.png'),
+                'sizes' => '192x192',
+                'type' => 'image/png',
+                'purpose' => 'any maskable'
+            ],
+            [
+                'src' => url('/images/logo.png'),
+                'sizes' => '512x512',
+                'type' => 'image/png',
+                'purpose' => 'any maskable'
+            ]
+        ]
+    ]);
+});
