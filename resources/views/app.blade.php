@@ -7,15 +7,17 @@
 
     <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Web App Manifest -->
+    <!-- PWA Web App Manifest -->
     <link rel="manifest" href="{{ asset('manifest.json') }}" />
 
-    <!-- iOS Safari Metadata -->
+    <!-- Mobile / iOS Safari Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="VenueBook" />
-    <link rel="apple-touch-icon" href="{{ asset('images/icon-192.png') }}" />
+    <meta name="apple-mobile-web-app-title" content="EaseRes" />
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}" />
 
+    <!-- Inertia & Vite Assets -->
     @routes
     @viteReactRefresh
     @vite(['resources/js/app.jsx', "resources/js/app/{$page['component']}.jsx"])
@@ -26,30 +28,19 @@
     @inertia
 
     <script>
-        // 1. Register Service Worker
+        // 1. Register Service Worker (Required for automatic browser install prompt)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register("{{ asset('sw.js') }}")
-                    .then(reg => console.log('Service Worker Active'))
-                    .catch(err => console.error('SW Error:', err));
+                    .then(reg => console.log('Service Worker Registered Successfully'))
+                    .catch(err => console.error('Service Worker Registration Failed:', err));
             });
         }
 
-        // 2. Automatically prompt user when install criteria are met
+        // 2. Automatic Install Suggestion Log
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent default mini-infobar on mobile Chrome
-            e.preventDefault();
-
-            // Trigger native prompt immediately
-            e.prompt();
-
-            e.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the shortcut prompt');
-                } else {
-                    console.log('User dismissed the prompt');
-                }
-            });
+            console.log('Browser installability criteria met. Native banner will show automatically.');
+            // DO NOT call e.preventDefault() here if you want the native browser banner to handle itself automatically.
         });
     </script>
 </body>

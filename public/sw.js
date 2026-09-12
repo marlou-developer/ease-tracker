@@ -1,8 +1,12 @@
-// public/sw.js
-self.addEventListener('install', (e) => self.skipWaiting());
-self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
+self.addEventListener("install", (event) => {
+    self.skipWaiting();
+});
 
-// Mandatory fetch handler for PWA installability check
-self.addEventListener('fetch', (e) => {
-  e.respondWith(fetch(e.request));
+self.addEventListener("activate", (event) => {
+    event.waitUntil(clients.claim());
+});
+
+// CRITICAL FOR ANDROID PWA: Must have a fetch handler
+self.addEventListener("fetch", (event) => {
+    event.respondWith(fetch(event.request));
 });
