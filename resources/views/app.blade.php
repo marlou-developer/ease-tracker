@@ -37,25 +37,23 @@
             Install Now
         </button>
     </div>
-
     <script>
         (function() {
             let deferredPrompt = null;
             const banner = document.getElementById('custom-install-banner');
             const installBtn = document.getElementById('pwa-install-trigger-btn');
 
-            // 1. Register Service Worker
+            // Register Service Worker with explicit root path
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', () => {
-                    navigator.serviceWorker.register("{{ url('/sw.js') }}", {
+                    navigator.serviceWorker.register('/sw.js', {
                             scope: '/'
                         })
-                        .then(reg => console.log('SW Registered on production:', reg.scope))
-                        .catch(err => console.error('SW Registration error:', err));
+                        .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+                        .catch(err => console.error('PWA Service Worker failed:', err));
                 });
             }
 
-            // 2. Capture Browser Prompt Event
             window.addEventListener('beforeinstallprompt', (e) => {
                 e.preventDefault();
                 deferredPrompt = e;
@@ -65,7 +63,6 @@
                 }
             });
 
-            // 3. Trigger Native Install Prompt on Click
             if (installBtn) {
                 installBtn.addEventListener('click', async () => {
                     if (!deferredPrompt) return;

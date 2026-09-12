@@ -3,4 +3,8 @@ php artisan make:model Booking/BookingVenue -mcr
 php artisan make:model Booking/BookingOrder -mcr
 php artisan make:model Booking/BookingReservation -mcr
 
+ease_db
+ease_username
+ease_db_live2026.
 
+php -d open_basedir= artisan key:generate

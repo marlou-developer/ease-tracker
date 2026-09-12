@@ -3,15 +3,15 @@
     "file": "assets/mockData-D6WDq4Rt.js",
     "name": "mockData"
   },
-  "_service-category-icon-usWacjUE.js": {
-    "file": "assets/service-category-icon-usWacjUE.js",
+  "_service-category-icon-Bhr0Ipc3.js": {
+    "file": "assets/service-category-icon-Bhr0Ipc3.js",
     "name": "service-category-icon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-Mw2cCKrD.js",
+    "file": "assets/app-D9_k-fAy.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -24,7 +24,7 @@
       "resources/js/app/_sections/footer.jsx",
       "resources/js/app/_sections/my-book-screen.jsx",
       "resources/js/app/_sections/navbar.jsx",
-      "_service-category-icon-usWacjUE.js",
+      "_service-category-icon-Bhr0Ipc3.js",
       "resources/js/app/_sections/sign-in.jsx",
       "resources/js/app/_sections/success-screen.jsx",
       "resources/js/app/_sections/venue-screen.jsx",
@@ -33,11 +33,11 @@
       "resources/js/app/home/page.jsx"
     ],
     "css": [
-      "assets/app-oAwzWLHD.css"
+      "assets/app-GMPfMRg_.css"
     ]
   },
   "resources/js/app/_components/toast-stack.jsx": {
-    "file": "assets/toast-stack-_8tdMXGl.js",
+    "file": "assets/toast-stack-CO29kbXy.js",
     "name": "toast-stack",
     "src": "resources/js/app/_components/toast-stack.jsx",
     "isDynamicEntry": true,
@@ -46,7 +46,7 @@
     ]
   },
   "resources/js/app/_sections/cart-screen.jsx": {
-    "file": "assets/cart-screen-DWBr7Esj.js",
+    "file": "assets/cart-screen-BqGjAs82.js",
     "name": "cart-screen",
     "src": "resources/js/app/_sections/cart-screen.jsx",
     "isDynamicEntry": true,
@@ -56,29 +56,29 @@
     ]
   },
   "resources/js/app/_sections/category-grid.jsx": {
-    "file": "assets/category-grid-C0RPuAWv.js",
+    "file": "assets/category-grid-COv9yNDa.js",
     "name": "category-grid",
     "src": "resources/js/app/_sections/category-grid.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-usWacjUE.js"
+      "_service-category-icon-Bhr0Ipc3.js"
     ]
   },
   "resources/js/app/_sections/category-screen.jsx": {
-    "file": "assets/category-screen-C9W5o8bi.js",
+    "file": "assets/category-screen-C_wVsCQg.js",
     "name": "category-screen",
     "src": "resources/js/app/_sections/category-screen.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-usWacjUE.js"
+      "_service-category-icon-Bhr0Ipc3.js"
     ]
   },
   "resources/js/app/_sections/confirm-screen.jsx": {
-    "file": "assets/confirm-screen-D8Tu9N2p.js",
+    "file": "assets/confirm-screen-bYjjrFPn.js",
     "name": "confirm-screen",
     "src": "resources/js/app/_sections/confirm-screen.jsx",
     "isDynamicEntry": true,
@@ -87,18 +87,18 @@
     ]
   },
   "resources/js/app/_sections/footer.jsx": {
-    "file": "assets/footer-CnL0SR_A.js",
+    "file": "assets/footer-CVBhJ3Qw.js",
     "name": "footer",
     "src": "resources/js/app/_sections/footer.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-usWacjUE.js"
+      "_service-category-icon-Bhr0Ipc3.js"
     ]
   },
   "resources/js/app/_sections/my-book-screen.jsx": {
-    "file": "assets/my-book-screen-ONn_pLuO.js",
+    "file": "assets/my-book-screen-B_LqoQkl.js",
     "name": "my-book-screen",
     "src": "resources/js/app/_sections/my-book-screen.jsx",
     "isDynamicEntry": true,
@@ -108,17 +108,17 @@
     ]
   },
   "resources/js/app/_sections/navbar.jsx": {
-    "file": "assets/navbar-BSvDHuND.js",
+    "file": "assets/navbar-CnzSVPe3.js",
     "name": "navbar",
     "src": "resources/js/app/_sections/navbar.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_service-category-icon-usWacjUE.js"
+      "_service-category-icon-Bhr0Ipc3.js"
     ]
   },
   "resources/js/app/_sections/sign-in.jsx": {
-    "file": "assets/sign-in-B_dzXDM5.js",
+    "file": "assets/sign-in-BaimVGL6.js",
     "name": "sign-in",
     "src": "resources/js/app/_sections/sign-in.jsx",
     "isDynamicEntry": true,
@@ -127,7 +127,7 @@
     ]
   },
   "resources/js/app/_sections/success-screen.jsx": {
-    "file": "assets/success-screen-C2W-g8hp.js",
+    "file": "assets/success-screen-CjdHxTzs.js",
     "name": "success-screen",
     "src": "resources/js/app/_sections/success-screen.jsx",
     "isDynamicEntry": true,
@@ -136,7 +136,7 @@
     ]
   },
   "resources/js/app/_sections/venue-screen.jsx": {
-    "file": "assets/venue-screen-DajV2byO.js",
+    "file": "assets/venue-screen-CrPPcjPI.js",
     "name": "venue-screen",
     "src": "resources/js/app/_sections/venue-screen.jsx",
     "isDynamicEntry": true,
@@ -146,7 +146,7 @@
     ]
   },
   "resources/js/app/_styles/global-style.jsx": {
-    "file": "assets/global-style-TiK-4E0c.js",
+    "file": "assets/global-style-BKs5oaLK.js",
     "name": "global-style",
     "src": "resources/js/app/_styles/global-style.jsx",
     "isDynamicEntry": true,
@@ -155,7 +155,7 @@
     ]
   },
   "resources/js/app/administrator/page.jsx": {
-    "file": "assets/page-sP--kYOq.js",
+    "file": "assets/page-DndEl7Cu.js",
     "name": "page",
     "src": "resources/js/app/administrator/page.jsx",
     "isDynamicEntry": true,
@@ -164,7 +164,7 @@
     ]
   },
   "resources/js/app/home/page.jsx": {
-    "file": "assets/page-DBBmNaiv.js",
+    "file": "assets/page-CMl00n-7.js",
     "name": "page",
     "src": "resources/js/app/home/page.jsx",
     "isDynamicEntry": true,
