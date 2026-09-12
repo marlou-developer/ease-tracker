@@ -10,7 +10,7 @@ export function Navbar({ cartCount, bookingsCount, user, onGo, onSignOut, onOpen
             <ServiceCategoryIcon category="sports" className="w-5 h-5 stroke-white" />
           </div>
           <div>
-            <span className="mp-display text-xl tracking-tight text-[var(--pitch)]">EaseTracker</span>
+            <span className="mp-display text-xl tracking-tight text-[var(--pitch)]">EaseTrackers</span>
             <span className="block text-[10px] font-bold text-[var(--amber)] uppercase tracking-wider -mt-1">Bookings</span>
           </div>
         </div>

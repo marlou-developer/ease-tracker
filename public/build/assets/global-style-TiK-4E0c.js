@@ -1,4 +1,4 @@
-import{t as e}from"./app-BVB2BnwD.js";var t=e(),n=()=>(0,t.jsx)(`style`,{children:`
+import{t as e}from"./app-Mw2cCKrD.js";var t=e(),n=()=>(0,t.jsx)(`style`,{children:`
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
     :root{
