@@ -11,6 +11,7 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
+                'user_id' => 2,
                 'key' => 'sports',
                 'name' => 'Sports Courts',
                 'icon' => 'sports',
@@ -18,6 +19,7 @@ class CategorySeeder extends Seeder
                 'is_badge' => false,
             ],
             [
+                'user_id' => 2,
                 'key' => 'hotel',
                 'name' => 'Hotels & Suites',
                 'icon' => 'hotel',
@@ -25,6 +27,7 @@ class CategorySeeder extends Seeder
                 'is_badge' => false,
             ],
             [
+                'user_id' => 2,
                 'key' => 'workspace',
                 'name' => 'Co-Working Hubs',
                 'icon' => 'workspace',
@@ -32,6 +35,7 @@ class CategorySeeder extends Seeder
                 'is_badge' => false,
             ],
             [
+                'user_id' => 4,
                 'key' => 'studio',
                 'name' => 'Studios & Halls',
                 'icon' => 'studio',
@@ -39,6 +43,7 @@ class CategorySeeder extends Seeder
                 'is_badge' => false,
             ],
             [
+                'user_id' => 4,
                 'key' => 'fitness',
                 'name' => 'Gym & Fitness',
                 'icon' => 'fitness',
@@ -46,6 +51,7 @@ class CategorySeeder extends Seeder
                 'is_badge' => true,
             ],
             [
+                'user_id' => 4,
                 'key' => 'wellness',
                 'name' => 'Spa & Wellness',
                 'icon' => 'wellness',
