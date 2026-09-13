@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Booking;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking\BookingCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -15,12 +16,8 @@ class BookingCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = BookingCategory::withCount('venues')
-            ->when($request->search, function ($query, $search) {
-                $query->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('key', 'LIKE', "%{$search}%");
-            })
-            ->with(['venues'])
+        $categories = User::where('role','Lessee')
+            ->with(['categories'])
             ->latest()
             ->get();
 

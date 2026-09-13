@@ -20,6 +20,7 @@ class BookingVenue extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'booking_category_id',
         'name',
         'area',

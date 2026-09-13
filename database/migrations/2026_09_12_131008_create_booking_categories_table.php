@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('booking_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('key')->unique(); // e.g., 'sports', 'hotel', 'workspace'
             $table->string('name'); // e.g., 'Sports Courts', 'Hotels & Suites'
             $table->string('icon')->nullable();

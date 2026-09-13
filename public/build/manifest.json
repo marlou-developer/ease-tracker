@@ -3,15 +3,15 @@
     "file": "assets/mockData-D6WDq4Rt.js",
     "name": "mockData"
   },
-  "_service-category-icon-Bhr0Ipc3.js": {
-    "file": "assets/service-category-icon-Bhr0Ipc3.js",
+  "_service-category-icon-Cl6bWblS.js": {
+    "file": "assets/service-category-icon-Cl6bWblS.js",
     "name": "service-category-icon",
     "imports": [
       "resources/js/app.jsx"
     ]
   },
   "resources/js/app.jsx": {
-    "file": "assets/app-D9_k-fAy.js",
+    "file": "assets/app-C3WgDfHo.js",
     "name": "app",
     "src": "resources/js/app.jsx",
     "isEntry": true,
@@ -22,9 +22,10 @@
       "resources/js/app/_sections/category-screen.jsx",
       "resources/js/app/_sections/confirm-screen.jsx",
       "resources/js/app/_sections/footer.jsx",
+      "resources/js/app/_sections/lessee-list.jsx",
       "resources/js/app/_sections/my-book-screen.jsx",
       "resources/js/app/_sections/navbar.jsx",
-      "_service-category-icon-Bhr0Ipc3.js",
+      "_service-category-icon-Cl6bWblS.js",
       "resources/js/app/_sections/sign-in.jsx",
       "resources/js/app/_sections/success-screen.jsx",
       "resources/js/app/_sections/venue-screen.jsx",
@@ -33,11 +34,11 @@
       "resources/js/app/home/page.jsx"
     ],
     "css": [
-      "assets/app-GMPfMRg_.css"
+      "assets/app-BdnLecKv.css"
     ]
   },
   "resources/js/app/_components/toast-stack.jsx": {
-    "file": "assets/toast-stack-CO29kbXy.js",
+    "file": "assets/toast-stack-CApMYKDA.js",
     "name": "toast-stack",
     "src": "resources/js/app/_components/toast-stack.jsx",
     "isDynamicEntry": true,
@@ -46,7 +47,7 @@
     ]
   },
   "resources/js/app/_sections/cart-screen.jsx": {
-    "file": "assets/cart-screen-BqGjAs82.js",
+    "file": "assets/cart-screen-B-dS4U80.js",
     "name": "cart-screen",
     "src": "resources/js/app/_sections/cart-screen.jsx",
     "isDynamicEntry": true,
@@ -56,29 +57,29 @@
     ]
   },
   "resources/js/app/_sections/category-grid.jsx": {
-    "file": "assets/category-grid-COv9yNDa.js",
+    "file": "assets/category-grid-BlC8C4TE.js",
     "name": "category-grid",
     "src": "resources/js/app/_sections/category-grid.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-Bhr0Ipc3.js"
+      "_service-category-icon-Cl6bWblS.js"
     ]
   },
   "resources/js/app/_sections/category-screen.jsx": {
-    "file": "assets/category-screen-C_wVsCQg.js",
+    "file": "assets/category-screen-Cao-cS5g.js",
     "name": "category-screen",
     "src": "resources/js/app/_sections/category-screen.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-Bhr0Ipc3.js"
+      "_service-category-icon-Cl6bWblS.js"
     ]
   },
   "resources/js/app/_sections/confirm-screen.jsx": {
-    "file": "assets/confirm-screen-bYjjrFPn.js",
+    "file": "assets/confirm-screen-BeX8Urp9.js",
     "name": "confirm-screen",
     "src": "resources/js/app/_sections/confirm-screen.jsx",
     "isDynamicEntry": true,
@@ -87,18 +88,27 @@
     ]
   },
   "resources/js/app/_sections/footer.jsx": {
-    "file": "assets/footer-CVBhJ3Qw.js",
+    "file": "assets/footer-Dy6eoKGj.js",
     "name": "footer",
     "src": "resources/js/app/_sections/footer.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
       "_mockData-D6WDq4Rt.js",
-      "_service-category-icon-Bhr0Ipc3.js"
+      "_service-category-icon-Cl6bWblS.js"
+    ]
+  },
+  "resources/js/app/_sections/lessee-list.jsx": {
+    "file": "assets/lessee-list-NOmKacxh.js",
+    "name": "lessee-list",
+    "src": "resources/js/app/_sections/lessee-list.jsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.jsx"
     ]
   },
   "resources/js/app/_sections/my-book-screen.jsx": {
-    "file": "assets/my-book-screen-B_LqoQkl.js",
+    "file": "assets/my-book-screen-D_K7bghy.js",
     "name": "my-book-screen",
     "src": "resources/js/app/_sections/my-book-screen.jsx",
     "isDynamicEntry": true,
@@ -108,17 +118,17 @@
     ]
   },
   "resources/js/app/_sections/navbar.jsx": {
-    "file": "assets/navbar-CnzSVPe3.js",
+    "file": "assets/navbar-BKS9qqgb.js",
     "name": "navbar",
     "src": "resources/js/app/_sections/navbar.jsx",
     "isDynamicEntry": true,
     "imports": [
       "resources/js/app.jsx",
-      "_service-category-icon-Bhr0Ipc3.js"
+      "_service-category-icon-Cl6bWblS.js"
     ]
   },
   "resources/js/app/_sections/sign-in.jsx": {
-    "file": "assets/sign-in-BaimVGL6.js",
+    "file": "assets/sign-in-B01CXqcF.js",
     "name": "sign-in",
     "src": "resources/js/app/_sections/sign-in.jsx",
     "isDynamicEntry": true,
@@ -127,7 +137,7 @@
     ]
   },
   "resources/js/app/_sections/success-screen.jsx": {
-    "file": "assets/success-screen-CjdHxTzs.js",
+    "file": "assets/success-screen-lBJDSm5K.js",
     "name": "success-screen",
     "src": "resources/js/app/_sections/success-screen.jsx",
     "isDynamicEntry": true,
@@ -136,7 +146,7 @@
     ]
   },
   "resources/js/app/_sections/venue-screen.jsx": {
-    "file": "assets/venue-screen-CrPPcjPI.js",
+    "file": "assets/venue-screen-CMZxKtOp.js",
     "name": "venue-screen",
     "src": "resources/js/app/_sections/venue-screen.jsx",
     "isDynamicEntry": true,
@@ -146,7 +156,7 @@
     ]
   },
   "resources/js/app/_styles/global-style.jsx": {
-    "file": "assets/global-style-BKs5oaLK.js",
+    "file": "assets/global-style-C1vueSam.js",
     "name": "global-style",
     "src": "resources/js/app/_styles/global-style.jsx",
     "isDynamicEntry": true,
@@ -155,7 +165,7 @@
     ]
   },
   "resources/js/app/administrator/page.jsx": {
-    "file": "assets/page-DndEl7Cu.js",
+    "file": "assets/page-5hFLxlhW.js",
     "name": "page",
     "src": "resources/js/app/administrator/page.jsx",
     "isDynamicEntry": true,
@@ -164,7 +174,7 @@
     ]
   },
   "resources/js/app/home/page.jsx": {
-    "file": "assets/page-CMl00n-7.js",
+    "file": "assets/page-D8I0WWMf.js",
     "name": "page",
     "src": "resources/js/app/home/page.jsx",
     "isDynamicEntry": true,
@@ -174,8 +184,8 @@
       "_mockData-D6WDq4Rt.js",
       "resources/js/app/_sections/cart-screen.jsx",
       "resources/js/app/_sections/category-grid.jsx",
-      "resources/js/app/_sections/category-screen.jsx",
       "resources/js/app/_sections/confirm-screen.jsx",
+      "resources/js/app/_sections/lessee-list.jsx",
       "resources/js/app/_sections/my-book-screen.jsx",
       "resources/js/app/_sections/navbar.jsx",
       "resources/js/app/_sections/sign-in.jsx",
