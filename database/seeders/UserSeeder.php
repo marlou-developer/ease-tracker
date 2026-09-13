@@ -42,5 +42,15 @@ class UserSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
+
+        User::updateOrCreate(
+            ['email' => 'subscriber2@omnireserve.com'],
+            [
+                'name' => 'Jordan Cruz 2',
+                'password' => Hash::make('password'),
+                'role' => 'Lessee',
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }
