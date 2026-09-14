@@ -1,6 +1,6 @@
-import { CATEGORY_COLORS } from "../_constants/mockData";
+import { CATEGORY_COLORS } from "../../../_constants/mockData";
 
-export function CartScreen({ cart, onRemoveCartItem, onCheckout, onGo }) {
+export function CartPage({ cart, onRemoveCartItem, onCheckout, onGo }) {
 
     // Calculate total price using base_price from backend venue data
     const calculateTotal = () => {

@@ -16,8 +16,7 @@ class BookingCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = User::where('role','Lessee')
-            ->with(['categories'])
+        $categories = BookingCategory::with(['venues'])
             ->latest()
             ->get();
 

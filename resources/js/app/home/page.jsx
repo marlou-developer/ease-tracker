@@ -5,17 +5,17 @@ import { Navbar } from "../_sections/navbar";
 import { SigninModal } from "../_sections/sign-in";
 import { ToastStack } from "../_components/toast-stack";
 import { CategoryGrid } from "../_sections/category-grid";
-import { VenueScreen } from "../_sections/venue-screen";
-import { CartScreen } from "../_sections/cart-screen";
-import { ConfirmScreen } from "../_sections/confirm-screen";
+import { VenueScreen } from "./booking/venue/page";
+import { ReservationPage } from "./booking/reservation/page";
+import {  CartPage } from "./booking/cart/page";
+import { CheckoutPage } from "./booking/checkout/page";
 import { SuccessScreen } from "../_sections/success-screen";
 import { MyBookingsScreen } from "../_sections/my-book-screen";
-import LesseeList from "../_sections/lessee-list";
 import { SUBSCRIPTION_PLANS } from "../_constants/mockData";
 import store from "../_store/store";
 import { get_app_data_thunk } from "../_redux/app-thunk";
 
-export default function App() {
+export default function Home() {
     const rawCategories = useSelector((store) => store.app?.categories);
 
     // Safeguard: Flatten categories across users if payload returns nested subscriber arrays
@@ -23,15 +23,14 @@ export default function App() {
         ? rawCategories.flatMap(item => (item.categories ? item.categories : item))
         : [];
 
-    // Screen Management
-    const [screen, setScreen] = useState("lessee");
+    // Screen Management - Defaults to "home"
+    const [screen, setScreen] = useState("home");
     const [searchText, setSearchText] = useState("");
     const [selectedVenueId, setSelectedVenueId] = useState(null);
     const [dateIndex, setDateIndex] = useState(0);
     const [showAllServices, setShowAllServices] = useState(false);
 
     // Dynamic State Routing
-    const [selectedLessee, setSelectedLessee] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     // Cart & User States
@@ -61,11 +60,8 @@ export default function App() {
     }
 
     // Handles returning back and clearing stale selection states
-    function handleGoBack(targetScreen) {
+    function handleGoBack(targetScreen = "home") {
         if (targetScreen === "home") {
-            setSelectedCategory(null);
-        } else if (targetScreen === "lessee") {
-            setSelectedLessee(null);
             setSelectedCategory(null);
         }
         go(targetScreen);
@@ -73,18 +69,13 @@ export default function App() {
 
     function handleCategoryClick(category) {
         setSelectedCategory(category);
-    }
-
-    function onLesseeClick(lessee) {
-        setSelectedLessee(lessee);
-        setSearchText("");
-        go("home");
+        go("venue");
     }
 
     function openVenue(id) {
         setSelectedVenueId(id);
         setDateIndex(0);
-        go("venue");
+        go("reservation");
     }
 
     // Toggle cart item using functional updates to prevent stale state issues
@@ -167,34 +158,19 @@ export default function App() {
         toast("All reservations & subscriptions confirmed!");
     }
 
-    // Determine categories to display (Filtered by Selected Lessee or All)
-    const activeCategoryList = selectedLessee
-        ? (selectedLessee.categories || [])
-        : categories;
-
     const visibleCategories = showAllServices
-        ? activeCategoryList
-        : activeCategoryList.slice(0, 4);
+        ? categories
+        : categories.slice(0, 8);
 
-    // ROBUST VENUE RESOLVER: Exhaustively searches all possible dynamic data shapes
+    // ROBUST VENUE RESOLVER
     const findVenueById = (id) => {
         if (!id) return null;
 
-        // 1. Direct match on selectedCategory
         if (selectedCategory?.venues) {
             const found = selectedCategory.venues.find(v => String(v.id) === String(id));
             if (found) return found;
         }
 
-        // 2. Direct match on selectedLessee
-        if (selectedLessee?.categories) {
-            const found = selectedLessee.categories
-                .flatMap(c => c.venues || [])
-                .find(v => String(v.id) === String(id));
-            if (found) return found;
-        }
-
-        // 3. Search through flattened categories array
         if (Array.isArray(categories)) {
             const found = categories
                 .flatMap(c => c.venues || [])
@@ -202,10 +178,8 @@ export default function App() {
             if (found) return found;
         }
 
-        // 4. Deep search inside raw Redux payload (handles nested subscribers/lessees)
         if (Array.isArray(rawCategories)) {
             for (const item of rawCategories) {
-                // Check if item contains categories array
                 const catList = item.categories || (Array.isArray(item) ? item : []);
                 for (const cat of catList) {
                     const venue = cat.venues?.find(v => String(v.id) === String(id));
@@ -235,32 +209,9 @@ export default function App() {
             <SigninModal ref={signinRef} onSignIn={(name) => { setUser(name); toast(`Welcome back, ${name}!`); }} />
             <ToastStack toasts={toasts} />
 
-            {/* 1st Screen: Lessee */}
-            {screen === "lessee" && (
-                <div className="screen-anim flex-1 p-6">
-                    <LesseeList
-                        lessees={rawCategories}
-                        onLesseeClick={onLesseeClick}
-                    />
-                </div>
-            )}
-
-            {/* 2nd Screen: Home (Category Grid & Venue Browser) */}
+            {/* 1st Screen: Home */}
             {screen === "home" && (
                 <div className="screen-anim flex-1">
-                    {selectedLessee && (
-                        <div className="max-w-7xl mx-auto px-6 pt-6 flex justify-between items-center">
-                            <span className="text-xs font-bold text-gray-500 bg-white px-3 py-1.5 rounded-xl border border-gray-200">
-                                Showing categories for: <strong className="text-[#0f172a]">{selectedLessee.name}</strong>
-                            </span>
-                            <button
-                                onClick={() => setSelectedLessee(null)}
-                                className="text-xs font-bold text-amber-600 hover:underline"
-                            >
-                                Clear Filter (Show All)
-                            </button>
-                        </div>
-                    )}
                     <CategoryGrid
                         visibleCategories={visibleCategories}
                         showAllServices={showAllServices}
@@ -272,9 +223,21 @@ export default function App() {
                 </div>
             )}
 
-            {/* 3rd Screen: Venue Detail */}
+            {/* 2nd Screen: Venue View */}
             {screen === "venue" && (
-                <VenueScreen
+                <div className="screen-anim flex-1">
+                    <VenueScreen
+                        selected={selectedCategory}
+                        searchText={searchText}
+                        onOpenVenue={openVenue}
+                        onGo={handleGoBack}
+                    />
+                </div>
+            )}
+
+            {/* 3rd Screen: Reservation Detail */}
+            {screen === "reservation" && (
+                <ReservationPage
                     activeVenue={activeVenue}
                     selectedPlanId={selectedPlanId}
                     setSelectedPlanId={setSelectedPlanId}
@@ -288,7 +251,7 @@ export default function App() {
 
             {/* Cart Screen */}
             {screen === "cart" && (
-                <CartScreen
+                <CartPage
                     cart={cart}
                     onRemoveCartItem={removeCartItem}
                     onCheckout={handleCheckout}
@@ -298,7 +261,7 @@ export default function App() {
 
             {/* Confirmation Screen */}
             {screen === "confirm" && (
-                <ConfirmScreen
+                <CheckoutPage
                     cart={cart}
                     form={form}
                     setForm={setForm}

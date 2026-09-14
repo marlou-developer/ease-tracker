@@ -1,5 +1,5 @@
 import React from 'react';
-import { CATEGORY_COLORS, SUBSCRIPTION_PLANS, DAY_LABELS, nextDates, fmtFullDate } from "../_constants/mockData";
+import { CATEGORY_COLORS, SUBSCRIPTION_PLANS, DAY_LABELS, nextDates, fmtFullDate } from "../../../_constants/mockData";
 
 /**
  * Parses time strings like "08:00:00", "08:00", or "8" into an integer hour (0-23)
@@ -29,7 +29,7 @@ const generateHoursFromVenue = (startTime, endTime) => {
     return slots;
 };
 
-export function VenueScreen({ activeVenue, selectedPlanId, setSelectedPlanId, dateIndex, setDateIndex, cart = [], onToggleCartItem, onGo }) {
+export function ReservationPage({ activeVenue, selectedPlanId, setSelectedPlanId, dateIndex, setDateIndex, cart = [], onToggleCartItem, onGo }) {
     // Graceful fallback UI when activeVenue has not resolved yet
     if (!activeVenue) {
         return (

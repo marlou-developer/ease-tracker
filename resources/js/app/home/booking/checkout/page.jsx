@@ -1,4 +1,4 @@
-export function ConfirmScreen({ cart, form, setForm, formErrors = {}, onFinalize, onGo }) {
+export function CheckoutPage({ cart, form, setForm, formErrors = {}, onFinalize, onGo }) {
   // Safe calculation to prevent NaN issues
   const calculateTotal = () => {
     return cart.reduce((sum, item) => {

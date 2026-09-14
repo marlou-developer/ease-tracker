@@ -8,3 +8,4 @@ ease_username
 ease_db_live2026.
 
 php -d open_basedir= artisan key:generate
+php -d open_basedir= artisan migrate:fresh --seed
