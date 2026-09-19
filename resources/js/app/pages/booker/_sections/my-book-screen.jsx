@@ -1,4 +1,4 @@
-import { CATEGORY_COLORS } from "../_constants/mockData";
+import { CATEGORY_COLORS } from "../../../_constants/mockData";
 
 
 export function MyBookingsScreen({ confirmedBookings, onGo }) {

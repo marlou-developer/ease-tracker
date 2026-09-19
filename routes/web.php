@@ -1,11 +1,4 @@
 <?php
-
-// use App\Http\Controllers\Admin\AdminCategoryController;
-// use App\Http\Controllers\Admin\AdminDashboardController;
-// use App\Http\Controllers\Admin\AdminOrderController;
-// use App\Http\Controllers\Admin\AdminVenueController;
-// use App\Http\Controllers\Booker\BookerDashboardController;
-// use App\Http\Controllers\Booker\BookerReservationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,11 +10,19 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('home/page');
+    return Inertia::render('pages/home/page');
+});
+
+Route::get('/booker/portal', function () {
+    return Inertia::render('pages/booker/page');
+});
+
+Route::get('/lesser/dashboard', function () {
+    return Inertia::render('pages/lesser/page');
 });
 
 Route::get('/administrator/dashboard', function () {
-    return Inertia::render('administrator/page');
+    return Inertia::render('pages/administrator/page');
 });
 
 /*

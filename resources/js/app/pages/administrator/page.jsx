@@ -64,7 +64,7 @@ const INITIAL_RESERVATIONS = [
    MAIN CONTAINER WITH PORTAL SWITCHER
 ============================================================ */
 export default function PortalsContainer() {
-  const [activePortal, setActivePortal] = useState("admin"); // 'admin' | 'subscriber' | 'booker'
+  const [activePortal, setActivePortal] = useState("admin"); // 'admin' | 'lesser' | 'booker'
 
   // Shared application state
   const [categories, setCategories] = useState(INITIAL_CATEGORIES);
@@ -104,14 +104,14 @@ export default function PortalsContainer() {
               🛡️ Admin Portal
             </button>
             <button
-              onClick={() => setActivePortal("subscriber")}
+              onClick={() => setActivePortal("lesser")}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                activePortal === "subscriber"
+                activePortal === "lesser"
                   ? "bg-[var(--amber)] text-white shadow-md"
                   : "text-white/70 hover:text-white"
               }`}
             >
-              ⭐ Subscriber Portal
+              ⭐ Lesser Portal
             </button>
             <button
               onClick={() => setActivePortal("booker")}
@@ -139,7 +139,7 @@ export default function PortalsContainer() {
             setOrders={setOrders}
           />
         )}
-        {activePortal === "subscriber" && <SubscriberPortal />}
+        {activePortal === "lesser" && <LesserPortal />}
         {activePortal === "booker" && (
           <BookerPortal
             reservations={reservations}
@@ -432,9 +432,9 @@ function AdminPortal({ categories, setCategories, venues, setVenues, orders, set
 }
 
 /* ============================================================
-   2. SUBSCRIBER PORTAL (UPGRADES & PERKS)
+   2. LESSER PORTAL (UPGRADES & PERKS)
 ============================================================ */
-function SubscriberPortal() {
+function LesserPortal() {
   const [tier, setTier] = useState("monthly_pass"); // 'single' | 'monthly_pass' | 'vip'
   const [autoRenew, setAutoRenew] = useState(true);
 
